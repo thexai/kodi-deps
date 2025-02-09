@@ -79,7 +79,7 @@ Param(
   [string[]] $Platforms = @( 'arm', 'win32', 'x64', 'arm64' ),
   [ValidateSet('10.0.17763.0', '10.0.18362.0')]
   [string] $SdkVersion = '10.0.18362.0',
-  [ValidateSet(15, 16)]
+  [ValidateSet(16, 17)]
   [int] $VsVersion = 16,
   [switch] $Zip = $false
 )
