@@ -79,7 +79,7 @@ Param(
   [string[]] $Platforms = @( 'arm', 'win32', 'x64', 'arm64' ),
   [ValidateSet('10.0.17763.0', '10.0.18362.0')]
   [string] $SdkVersion = '10.0.18362.0',
-  [ValidateSet(15, 16)]
+  [ValidateSet(16, 17)]
   [int] $VsVersion = 16,
   [switch] $Zip = $false
 )
@@ -118,7 +118,7 @@ if ($GenerateProjects) {
       cmake -G "Visual Studio $VsVersion" -A $platform -Thost=x64 -DPATCH="C:\Program Files\Git\usr\bin\patch.exe" -S $PsScriptRoot -B $path
     }
 
-    if ($App) {
+    if ($App -and ($platform -ne 'arm64')) {
       $path = "$PsScriptRoot\Build\win10-$Platform"
       cmake -G "Visual Studio $VsVersion" -A $platform -Thost=x64 -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION="$SdkVersion" -DPATCH="C:\Program Files\Git\usr\bin\patch.exe" -S $PsScriptRoot -B $path
     }
@@ -153,7 +153,7 @@ foreach ($platform in $platforms) {
     }
   }
 
-  if ($App) {
+  if ($App -and ($platform -ne 'arm64')) {
     $storePath = "$PsScriptRoot\Build\win10-$Platform"
     if ($Deb) {
       cmake --build $storePath --config Debug -t @appPackages $cleanFirst --parallel -- -m
@@ -194,7 +194,7 @@ if ($Zip) {
       }
     }
 
-    if ($App) {
+    if ($App -and ($platform -ne 'arm64')) {
       $storePath = "$PsScriptRoot\Build\win10-$Platform"
       cmake --build $storePath --config RelWithDebInfo -t @appPackages --parallel -- -m
       if ($LASTEXITCODE -ne 0) {

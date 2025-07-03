@@ -877,16 +877,16 @@ ExternalProject_Add(libbluray
 add_dependency_project_package(libbluray 1.3.4)
 
 ExternalProject_Add(dav1d
-    DOWNLOAD_NAME dav1d-1.4.1.tar.gz
+    DOWNLOAD_NAME dav1d-1.5.1.tar.gz
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://code.videolan.org/videolan/dav1d/-/archive/1.4.1/dav1d-1.4.1.tar.gz
-    URL_HASH SHA256=04da7689748a3501d00b6796b6de0596177019709ecc6095c667b7964895dd8c
+    URL https://code.videolan.org/videolan/dav1d/-/archive/1.5.1/dav1d-1.5.1.tar.gz
+    URL_HASH SHA256=fa635e2bdb25147b1384007c83e15de44c589582bb3b9a53fc1579cb9d74b695
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(dav1d 1.4.1)
+add_dependency_project_package(dav1d 1.5.1)
 
 ExternalProject_Add(GoogleTest
     GIT_REPOSITORY https://github.com/Google/GoogleTest

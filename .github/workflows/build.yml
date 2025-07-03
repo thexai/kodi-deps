@@ -21,6 +21,8 @@ jobs:
         exclude:
           - arch: arm
             platform: -Desktop
+          - arch: arm64
+            platform: -App
     runs-on: windows-2019
 
     steps:
