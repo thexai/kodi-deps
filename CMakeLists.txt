@@ -279,8 +279,8 @@ ExternalProject_Add(libcdio
 add_dependency_project_package(libcdio 2.1.0)
 
 ExternalProject_Add(libfribidi
-    GIT_REPOSITORY https://github.com/Paxxi/fribidi
-    GIT_TAG 15ff2bd79faf8d246eac7ea27b89393d1b905c8b
+    GIT_REPOSITORY https://github.com/thexai/fribidi
+    GIT_TAG 29ca7f90e6117ccc8159ac751a5e533329e04530
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
@@ -560,14 +560,14 @@ add_dependency_project_package(libffi 3.3.0)
 ExternalProject_Add(python
     DEPENDS bzip2 openssl sqlite zlib expat libffi xz
     GIT_REPOSITORY https://github.com/thexai/cpython
-    GIT_TAG ff25115e850caf01749c03e747f3b436b279775a
+    GIT_TAG 4c97e13f50ce1f925e5f95945c6d395b83f78a64
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/bzip2%3B%3B${PREFIX}/openssl%3B%3B${PREFIX}/sqlite%3B%3B${PREFIX}/zlib%3B%3B${PREFIX}/libffi%3B%3B${PREFIX}/xz%3B%3B${PREFIX}/expat
 )
-add_dependency_project_package(python 3.8.15)
+add_dependency_project_package(python 3.12.11)
 
 ExternalProject_Add(libjpeg-turbo
     GIT_REPOSITORY https://github.com/Paxxi/libjpeg-turbo
@@ -586,20 +586,20 @@ add_dependency_project_package(libjpeg-turbo 2.0.3)
 
 ExternalProject_Add(pillow
     DEPENDS freetype libjpeg-turbo python zlib
-    GIT_REPOSITORY https://github.com/Paxxi/pillow
-    GIT_TAG 7bba0ea4a992633fe99b28b39dcd45d4115c34b1
+    GIT_REPOSITORY https://github.com/thexai/Pillow
+    GIT_TAG dbde60e30ffc8bfe8c461b576d41343f46e9553e
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/freetype%3B%3B${PREFIX}/libjpeg-turbo%3B%3B${PREFIX}/python%3B%3B${PREFIX}/zlib
 )
-add_dependency_project_package(pillow 6.2.1)
+add_dependency_project_package(pillow 11.2.1)
 
 ExternalProject_Add(pycryptodome
     DEPENDS python
-    GIT_REPOSITORY https://github.com/Paxxi/pycryptodome
-    GIT_TAG 789d3c3f2a45a1f649d708d86c605212d54cd9a4
+    GIT_REPOSITORY https://github.com/thexai/pycryptodome
+    GIT_TAG 3801f6a9614724b7965352068bf6d4643a171707
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
@@ -608,7 +608,7 @@ ExternalProject_Add(pycryptodome
         -DBUILD_SHARED_LIBS:BOOL=ON
         -DSEPARATE_NAMESPACE:BOOL=ON
 )
-add_dependency_project_package(pycryptodome 3.9.4)
+add_dependency_project_package(pycryptodome 3.23.0)
 
 if(NOT WINDOWS_STORE)
 ExternalProject_Add(shairplay
