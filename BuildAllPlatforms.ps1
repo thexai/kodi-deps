@@ -75,8 +75,8 @@ Param(
   [switch] $Rebuild = $false,
   [switch] $Desktop = $false,
   [switch] $App = $false,
-  [ValidateSet( 'arm', 'win32', 'x64', 'arm64' )]
-  [string[]] $Platforms = @( 'arm', 'win32', 'x64', 'arm64' ),
+  [ValidateSet( 'win32', 'x64', 'arm64' )]
+  [string[]] $Platforms = @( 'win32', 'x64', 'arm64' ),
   [ValidateSet('10.0.18362.0', '10.0.22621.0')]
   [string] $SdkVersion = '10.0.22621.0',
   [ValidateSet(16, 17)]
