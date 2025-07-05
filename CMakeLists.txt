@@ -131,7 +131,6 @@ ExternalProject_Add(uwp_compat
 )
 add_dependency_project_package(uwp_compat 0.1)
 
-
 ExternalProject_Add(bzip2
     GIT_REPOSITORY https://github.com/Paxxi/bzip2
     GIT_TAG 6aba9bd98f1c67c9266a15884695ca04b7633445
@@ -209,7 +208,6 @@ ExternalProject_Add(xz
 )
 add_dependency_project_package(xz 5.2.4)
 
-
 ExternalProject_Add(miniwdk
     GIT_REPOSITORY https://github.com/Paxxi/miniwdk
     GIT_TAG 2561ff58d73f16c4ee4beb6e25fa9c49026da115
@@ -245,31 +243,6 @@ ExternalProject_Add(flatbuffers
         -DFLATBUFFERS_BUILD_TESTS:BOOL=OFF
 )
 add_dependency_project_package(flatbuffers 2.0.0)
-
-ExternalProject_Add(fmt
-    GIT_REPOSITORY https://github.com/Paxxi/fmt
-    GIT_TAG ffd52be171e11ea0644ad496a5274eba59ee9be1
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DFMT_DOC:BOOL=OFF
-        -DFMT_TEST:BOOL=OFF
-)
-add_dependency_project_package(fmt 6.1.2)
-
-ExternalProject_Add(rapidjson
-    GIT_REPOSITORY https://github.com/Paxxi/rapidjson
-    GIT_TAG 4a8d7871ed0aaa3277135e99ce0d5b51e3cd7f28
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DRAPIDJSON_BUILD_TESTS:BOOL=OFF
-        -DRAPIDJSON_BUILD_EXAMPLES:BOOL=OFF
-        -DRAPIDJSON_BUILD_DOC:BOOL=OFF
-)
-add_dependency_project_package(rapidjson 1.1.0 ANY)
 
 ExternalProject_Add(freetype
     GIT_REPOSITORY https://github.com/Paxxi/freetype2
@@ -330,35 +303,6 @@ ExternalProject_Add(harfbuzz
 )
 add_dependency_project_package(harfbuzz 2.8.0)
 
-ExternalProject_Add(lzo2
-    GIT_REPOSITORY https://github.com/Paxxi/lzo2
-    GIT_TAG c04ee89a9b8c48b7a2661b3dbf79257453510c5a
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-)
-add_dependency_project_package(lzo2 2.10)
-
-ExternalProject_Add(pcre
-    GIT_REPOSITORY https://github.com/Paxxi/pcre
-    GIT_TAG 84347095911601380e4ffbf7aad9c987d7b4f358
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DINSTALL_MSVC_PDB:BOOL=ON
-        -DPCRE_BUILD_PCREGREP:BOOL=OFF
-        -DPCRE_BUILD_TESTS:BOOL=OFF
-        -DPCRE_MATCH_LIMIT_RECURSION=1500
-        -DPCRE_NEWLINE=ANYCRLF
-        -DPCRE_NO_RECURSE:BOOL=ON
-        -DPCRE_SUPPORT_JIT:BOOL=ON
-        -DPCRE_SUPPORT_UNICODE_PROPERTIES:BOOL=ON
-        -DPCRE_SUPPORT_UTF:BOOL=ON
-)
-add_dependency_project_package(pcre 8.43)
-
 ExternalProject_Add(sqlite
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
     URL https://sqlite.org/2019/sqlite-amalgamation-3300100.zip
@@ -370,17 +314,6 @@ ExternalProject_Add(sqlite
         -DBUILD_SHARED_LIBS:BOOL=OFF
 )
 add_dependency_project_package(sqlite 3300100)
-
-ExternalProject_Add(taglib
-    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL http://taglib.org/releases/taglib-1.11.1.tar.gz
-    URL_HASH SHA256=b6d1a5a610aae6ff39d93de5efd0fdc787aa9e9dc1e7026fa4c961b26563526b
-    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-)
-add_dependency_project_package(taglib 1.11.1)
 
 ExternalProject_Add(tinyxml
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -407,76 +340,6 @@ ExternalProject_Add(detours
 add_dependency_project_package(detours 64ec13)
 endif()
 
-ExternalProject_Add(libass
-    DEPENDS freetype libfribidi libiconv harfbuzz
-    GIT_REPOSITORY https://github.com/xbmc/libass
-    GIT_TAG 3f188ca5bbcb6605c59dfa5731c01cd1273a6d6a
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/freetype%3B%3B${PREFIX}/libfribidi%3B%3B${PREFIX}/libiconv%3B%3B${PREFIX}/harfbuzz
-        -DBUILD_SHARED_LIBS:BOOL=ON
-)
-add_dependency_project_package(libass 0.17.1)
-
-ExternalProject_Add(brotli
-    GIT_REPOSITORY https://github.com/Paxxi/brotli
-    GIT_TAG 6e8b092bc1b01ef5049645a160d8e2497b7272e6
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-)
-add_dependency_project_package(brotli 1.0.7)
-
-ExternalProject_Add(nghttp2
-    DEPENDS openssl zlib
-    GIT_REPOSITORY https://github.com/Paxxi/nghttp2
-    GIT_TAG a3c6b3bbe7d56cebf4b019ca6f3f11f9ee0f83b2
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DENABLE_APP:BOOL=OFF
-        -DENABLE_HPACK_TOOLS:BOOL=OFF
-        -DENABLE_EXAMPLES:BOOL=OFF
-        -DENABLE_LIB_ONLY:BOOL=ON
-        -DENABLE_STATIC_LIB:BOOL=ON
-        -DENABLE_SHARED_LIB:BOOL=OFF
-        -DENABLE_DOC:BOOL=OFF
-)
-add_dependency_project_package(nghttp2 1.40.0)
-
-ExternalProject_Add(curl
-    DEPENDS openssl zlib brotli nghttp2
-    GIT_REPOSITORY https://github.com/Paxxi/curl
-    GIT_TAG 1b0fb07ad15eee4e8ec4afeb96a484c7d1c74ab6
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/openssl%3B%3B${PREFIX}/zlib%3B%3B${PREFIX}/brotli%3B%3B${PREFIX}/nghttp2
-        -DBUILD_CURL_EXE:BOOL=OFF
-        -DBUILD_CURL_TESTS:BOOL=OFF
-        -DBUILD_SHARED_LIBS:BOOL=ON
-        -DBUILD_TESTING:BOOL=OFF
-        -DCMAKE_USE_LIBSSH2:BOOL=OFF
-        -DCMAKE_USE_OPENSSL:BOOL=ON
-        -DCURL_CA_FALLBACK:BOOL=ON
-        -DCURL_DISABLE_IMAP:BOOL=ON
-        -DCURL_DISABLE_LDAP:BOOL=ON
-        -DCURL_DISABLE_LDAPS:BOOL=ON
-        -DCURL_DISABLE_POP3:BOOL=ON
-        -DCURL_DISABLE_SMTP:BOOL=ON
-        -DCURL_DISABLE_TELNET:BOOL=ON
-        -DCURL_DISABLE_TELNET:BOOL=ON
-        -DCURL_BROTLI:BOOL=ON
-        -DENABLE_MANUAL:BOOL=OFF
-        -DUSE_NGHTTP2:BOOL=ON
-)
-add_dependency_project_package(curl 7.67.0)
-
 if(NOT WINDOWS_STORE)
 ExternalProject_Add(dnssd
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -501,33 +364,6 @@ ExternalProject_Add(lcms2
         -DBUILD_SHARED_LIBS:BOOL=ON
 )
 add_dependency_project_package(lcms2 2.9)
-
-if(NOT WINDOWS_STORE)
-ExternalProject_Add(platform
-    GIT_REPOSITORY https://github.com/Paxxi/platform
-    GIT_TAG 5f7ede279db7be840610eb6bc126068a735d7440
-    GIT_SHALLOW ON
-    GIT_SUBMODULES
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-)
-add_dependency_project_package(platform 2.1.0)
-
-ExternalProject_Add(libcec
-    DEPENDS platform
-    GIT_REPOSITORY https://github.com/Paxxi/libcec
-    GIT_TAG 914ad6788372460856591854bf35731f697b7f05
-    GIT_SHALLOW ON
-    GIT_SUBMODULES
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/platform
-        -DSKIP_PYTHON_WRAPPER=ON
-)
-add_dependency_project_package(libcec 4.0.4)
-endif()
 
 ExternalProject_Add(libgpg-error
     DEPENDS libiconv
@@ -564,20 +400,6 @@ ExternalProject_Add(winflexbison
 )
 add_dependency_project_package(winflexbison 2.5.20)
 
-if(NOT WINDOWS_STORE)
-ExternalProject_Add(swig
-    DEPENDS pcre winflexbison
-    GIT_REPOSITORY https://github.com/Paxxi/swig
-    GIT_TAG 3928d124d79aee521d527cbf2cf0f1e0eb792738
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/pcre%3B%3B${PREFIX}/winflexbison
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-)
-add_dependency_project_package(swig 4.0.1)
-endif()
-
 ExternalProject_Add(libaacs
     DEPENDS libgcrypt libgpg-error winflexbison libiconv
     GIT_REPOSITORY https://github.com/Paxxi/libaacs
@@ -612,16 +434,6 @@ ExternalProject_Add(libmicrohttpd
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
 add_dependency_project_package(libmicrohttpd 0.9.69)
-
-ExternalProject_Add(libnfs
-    GIT_REPOSITORY https://github.com/Paxxi/libnfs
-    GIT_TAG 532ccf756d15b15b5f4ef1ba61708a6805a17804
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-)
-add_dependency_project_package(libnfs 4.0.0)
 
 ExternalProject_Add(libxml2
     DEPENDS libiconv
@@ -672,7 +484,6 @@ ExternalProject_Add(giflib
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-
 add_dependency_project_package(giflib 5.2.1)
 
 ExternalProject_Add(libpng
@@ -687,7 +498,6 @@ ExternalProject_Add(libpng
         -DPNG_TESTS:BOOL=OFF
         -DPNG_SHARED:BOOL=OFF
 )
-
 add_dependency_project_package(libpng 1.6.37)
 
 ExternalProject_Add(libwebp
@@ -709,7 +519,6 @@ ExternalProject_Add(libwebp
         -DWEBP_BUILD_WEBPMUX=OFF
         -DWEBP_BUILD_EXTRAS=OFF
 )
-
 add_dependency_project_package(libwebp 1.0.3)
 
 ExternalProject_Add(mariadb-connector-c
@@ -773,7 +582,6 @@ ExternalProject_Add(libjpeg-turbo
         -DWITH_SIMD:BOOL=OFF
         -DWITH_CRT_DLL:BOOL=ON
 )
-
 add_dependency_project_package(libjpeg-turbo 2.0.3)
 
 ExternalProject_Add(pillow
@@ -817,41 +625,6 @@ ExternalProject_Add(shairplay
 add_dependency_project_package(shairplay ce80e00)
 endif()
 
-ExternalProject_Add(libdvdcss
-    GIT_REPOSITORY https://github.com/Paxxi/libdvdcss
-    GIT_TAG 705a62756886ba5c3c08b79c9b6edafad004b8b7
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-)
-add_dependency_project_package(libdvdcss 1.4.2)
-
-ExternalProject_Add(libdvdread
-    DEPENDS libdvdcss
-    GIT_REPOSITORY https://github.com/Paxxi/libdvdread
-    GIT_TAG ff62ae1c6fb1c9a3a26a4fd5d653bce2991dd417
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/libdvdcss
-)
-add_dependency_project_package(libdvdread 6.0.2)
-
-ExternalProject_Add(libdvdnav
-    DEPENDS libdvdcss libdvdread
-    GIT_REPOSITORY https://github.com/Paxxi/libdvdnav
-    GIT_TAG 9f9e7c9d6b299692b72bacc0c3a4077109975369
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/libdvdcss%3B%3B${PREFIX}/libdvdread
-        -DBUILD_SHARED_LIBS:BOOL=ON
-)
-add_dependency_project_package(libdvdnav 6.0.1)
-
 ExternalProject_Add(libudfread
     GIT_REPOSITORY https://github.com/Paxxi/libudfread
     GIT_TAG 29fcdb5280e5d1778786795b594ec9fc60bf75da
@@ -861,7 +634,6 @@ ExternalProject_Add(libudfread
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
 add_dependency_project_package(libudfread 1.1.2)
-
 
 ExternalProject_Add(libbluray
     DEPENDS freetype libiconv libxml2 libudfread libaacs
@@ -899,25 +671,6 @@ ExternalProject_Add(GoogleTest
 )
 add_dependency_project_package(GoogleTest 1.10.0)
 
-ExternalProject_Add(spdlog
-    DEPENDS fmt
-    GIT_REPOSITORY https://github.com/Paxxi/spdlog
-    GIT_TAG 1c1c236080d2f17ba2a99a1e377f41bc28e24cea
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DSPDLOG_BUILD_EXAMPLE:BOOL=OFF
-        -DSPDLOG_BUILD_TESTS:BOOL=OFF
-        -DSPDLOG_INSTALL:BOOL=ON
-        -DSPDLOG_FMT_EXTERNAL:BOOL=ON
-        -DSPDLOG_WCHAR_SUPPORT:BOOL=ON
-        -DSPDLOG_WCHAR_FILENAMES:BOOL=ON
-        -DSPDLOG_NO_THREAD_ID:BOOL=ON
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/fmt
-)
-add_dependency_project_package(spdlog 1.5.0)
-
 ExternalProject_Add(date
     GIT_REPOSITORY https://github.com/Paxxi/date
     GIT_TAG e9943526c2ba23746b3fe4fb0522be85b1efcd00
@@ -938,7 +691,6 @@ add_dependency_project_package(date 3.0.1)
 
 add_custom_target(DependenciesRequired
     DEPENDS
-        brotli
         bzip2
         crossguid
         curl
@@ -946,7 +698,6 @@ add_custom_target(DependenciesRequired
         dav1d
         expat
         flatbuffers
-        fmt
         freetype
         fstrcmp
         giflib
@@ -954,13 +705,9 @@ add_custom_target(DependenciesRequired
         harfbuzz
         lcms2
         libaacs
-        libass
         libbdplus
         libbluray
         libcdio
-        libdvdcss
-        libdvdnav
-        libdvdread
         libffi
         libfribidi
         libgpg-error
@@ -968,25 +715,18 @@ add_custom_target(DependenciesRequired
         libjpeg-turbo
         libiconv
         libmicrohttpd
-        libnfs
         libpng
         libudfread
         libwebp
         libxml2
         libxslt
-        lzo2
         mariadb-connector-c
         #miniwdk # WDK is not installed on github hosted runners
-        nghttp2
         openssl
-        pcre
         python
         pillow
         pycryptodome
-        rapidjson
-        spdlog
         sqlite
-        taglib
         tinyxml
         winflexbison
         xz
@@ -999,12 +739,8 @@ add_custom_target(DependenciesRequiredDebug
         crossguid
         date
         detours
-        fmt
         GoogleTest
         libudfread
-        lzo2
-        pcre
-        taglib
         tinyxml
         zlib
 )
@@ -1014,10 +750,7 @@ add_dependencies(DependenciesRequired
     detours
     dnssd
     flatc
-    libcec
     libplist
-    platform
     shairplay
-    swig
 )
 endif()
