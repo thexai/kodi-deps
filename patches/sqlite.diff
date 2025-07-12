@@ -3,7 +3,7 @@
 @@ -0,0 +1,84 @@
 +cmake_minimum_required(VERSION 3.2)
 +
-+project(sqlite3 VERSION 3.13.0 LANGUAGES C)
++project(sqlite3 VERSION 3.50.3 LANGUAGES C)
 +
 +if(MSVC)
 +  set(CMAKE_DEBUG_POSTFIX "d")

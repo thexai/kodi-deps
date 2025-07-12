@@ -1,0 +1,90 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 15ceebe..f459b85 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -150,9 +150,9 @@ if(MINGW)
+ endif(MINGW)
+ 
+ add_library(zlib SHARED ${ZLIB_SRCS} ${ZLIB_DLL_SRCS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
+-target_include_directories(zlib PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
++# target_include_directories(zlib PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+ add_library(zlibstatic STATIC ${ZLIB_SRCS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
+-target_include_directories(zlibstatic PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
++# target_include_directories(zlibstatic PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+ set_target_properties(zlib PROPERTIES DEFINE_SYMBOL ZLIB_DLL)
+ set_target_properties(zlib PROPERTIES SOVERSION 1)
+ 
+@@ -173,16 +173,46 @@ if(UNIX)
+    if(NOT APPLE AND NOT(CMAKE_SYSTEM_NAME STREQUAL AIX))
+      set_target_properties(zlib PROPERTIES LINK_FLAGS "-Wl,--version-script,\"${CMAKE_CURRENT_SOURCE_DIR}/zlib.map\"")
+    endif()
+-elseif(BUILD_SHARED_LIBS AND WIN32)
++# elseif(BUILD_SHARED_LIBS AND WIN32)
+     # Creates zlib1.dll when building shared library version
+-    set_target_properties(zlib PROPERTIES SUFFIX "1.dll")
++    # set_target_properties(zlib PROPERTIES SUFFIX "1.dll")
+ endif()
+ 
+ if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL )
+-    install(TARGETS zlib zlibstatic
+-        RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
+-        ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
+-        LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
++    install(TARGETS zlib zlibstatic EXPORT zlib
++        RUNTIME DESTINATION bin
++        ARCHIVE DESTINATION lib
++        LIBRARY DESTINATION lib
++        INCLUDES DESTINATION include
++    )
++    install(EXPORT zlib
++        NAMESPACE zlib::
++        DESTINATION lib/cmake/zlib
++    )
++    if(MSVC)
++        install(
++            FILES $<TARGET_PDB_FILE:zlib>
++            COMPONENT Runtime
++            DESTINATION lib
++        )
++        install(FILES
++            ${CMAKE_BINARY_DIR}/RelWithDebInfo/zlibstatic.pdb
++            DESTINATION lib
++            CONFIGURATIONS RelWithDebInfo
++        )
++        install(FILES
++            ${CMAKE_BINARY_DIR}/Debug/zlibstaticd.pdb
++            DESTINATION lib
++            CONFIGURATIONS Debug
++        )
++    endif()
++
++    install(FILES
++        cmake/${PROJECT_NAME}-config.cmake
++        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
++        DESTINATION
++            lib/cmake/${PROJECT_NAME}
++    )
+ endif()
+ if(NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL )
+     install(FILES ${ZLIB_PUBLIC_HDRS} DESTINATION "${INSTALL_INC_DIR}")
+@@ -194,6 +224,13 @@ if(NOT SKIP_INSTALL_FILES AND NOT SKIP_INSTALL_ALL )
+     install(FILES ${ZLIB_PC} DESTINATION "${INSTALL_PKGCONFIG_DIR}")
+ endif()
+ 
++include(CMakePackageConfigHelpers)
++write_basic_package_version_file(
++    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
++    VERSION ${VERSION}
++    COMPATIBILITY AnyNewerVersion
++)
++
+ #============================================================================
+ # Example binaries
+ #============================================================================
+diff --git a/cmake/zlib-config.cmake b/cmake/zlib-config.cmake
+new file mode 100644
+index 0000000..f171680
+--- /dev/null
++++ b/cmake/zlib-config.cmake
+@@ -0,0 +1 @@
++include(${CMAKE_CURRENT_LIST_DIR}/zlib.cmake)

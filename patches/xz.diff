@@ -6,7 +6,7 @@ index 0000000..4c6e540
 @@ -0,0 +1,240 @@
 +cmake_minimum_required(VERSION 3.2)
 +
-+project(xz VERSION 5.2.4 LANGUAGES C)
++project(xz VERSION 5.2.5 LANGUAGES C)
 +
 +if(MSVC)
 +  set(CMAKE_DEBUG_POSTFIX "d")
