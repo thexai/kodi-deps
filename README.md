@@ -14,24 +14,17 @@ manually
 - windows driver kit (wdk)
 - jdk (Use SE 8 from oracle, using AdoptOpenJDK produced a build that didn't work)
 - ant
-- windows sdk 10.0.17763.0
+- windows sdk 10.0.22621.0
 - cmake 3.16 or higher
 
-### VS 2017
-
-- c++ development and universal development workloads
-- atl
-- mfc
-- build tools for x86, x64, arm, arm64
-
-### VS 2019
+### VS 2022
 
 - c++ development and universal development workloads
 - atl
 - atl spectre mitigations
 - mfc
 - mfc spectre mitigrations
-- build tools for x86, x64, arm, arm64
+- build tools for x86, x64, arm64
 - crt libraries with spectre mitigations
 
 

@@ -8,22 +8,20 @@ on:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  VS_VERSION: 16
-  SDK_VERSION: '10.0.18362.0'
+  VS_VERSION: 17
+  SDK_VERSION: '10.0.22621.0'
 
 jobs:
   build:
     strategy:
       fail-fast: true
       matrix:
-        arch: [win32, x64, arm, arm64]
+        arch: [win32, x64, arm64]
         platform: [-App, -Desktop]
         exclude:
-          - arch: arm
-            platform: -Desktop
           - arch: arm64
             platform: -App
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     steps:
     - uses: actions/checkout@v4

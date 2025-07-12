@@ -3,12 +3,12 @@ Param(
   [switch] $Desktop,
   [switch] $App,
   [switch] $NoClean,
-  [ValidateSet( 'arm', 'win32', 'x64', 'arm64' )]
-  [string[]] $Platforms = @( 'arm', 'win32', 'x64', 'arm64' ),
-  [ValidateSet('10.0.17763.0', '10.0.18362.0')]
-  [string] $SdkVersion = '10.0.18362.0',
+  [ValidateSet( 'win32', 'x64', 'arm64' )]
+  [string[]] $Platforms = @( 'win32', 'x64', 'arm64' ),
+  [ValidateSet('10.0.18362.0', '10.0.22621.0')]
+  [string] $SdkVersion = '10.0.22621.0',
   [ValidateSet(16, 17)]
-  [int] $VsVersion = 16
+  [int] $VsVersion = 17
 )
 $ErrorActionPreference = 'Stop'
 
