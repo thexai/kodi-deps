@@ -28,7 +28,13 @@ jobs:
 
     - name: Install Strawberry Perl
       # Perl included with git does not work when building openssl
-      run: choco install -y StrawberryPerl nasm
+      run: choco install -y StrawberryPerl
+
+    - name: Install nasm and add to path
+      # required to build OpenSSL with asm option enabled
+      run: |
+        choco install nasm ${{ matrix.platform.arch == 'win32' && '--x86' || '' }}
+        "C:\Program Files${{ matrix.platform.arch == 'win32' && ' (x86)' || '' }}\NASM" | Out-File -FilePath "$env:GITHUB_PATH" -Append
 
     - name: Install CMake v3.28.3
       # libbluray fails to build with CMake 3.29.0
