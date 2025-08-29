@@ -558,14 +558,14 @@ add_dependency_project_package(libffi 3.3.0)
 ExternalProject_Add(python
     DEPENDS bzip2 openssl sqlite zlib expat libffi xz
     GIT_REPOSITORY https://github.com/thexai/cpython
-    GIT_TAG ac18623a47b8c3d6bfe1ef5923ea37ca6635ab05
+    GIT_TAG cd49742c0d35faf0eb3302ff4815bebb79e3340b
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/bzip2%3B%3B${PREFIX}/openssl%3B%3B${PREFIX}/sqlite%3B%3B${PREFIX}/zlib%3B%3B${PREFIX}/libffi%3B%3B${PREFIX}/xz%3B%3B${PREFIX}/expat
 )
-add_dependency_project_package(python 3.13.5)
+add_dependency_project_package(python 3.13.7)
 
 ExternalProject_Add(libjpeg-turbo
     GIT_REPOSITORY https://github.com/Paxxi/libjpeg-turbo
