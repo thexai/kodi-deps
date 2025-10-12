@@ -5,13 +5,13 @@ index 0000000..9d0f169
 +++ b/CMakeLists.txt
 @@ -0,0 +1,209 @@
 +cmake_minimum_required(VERSION 3.9)
-+project(libffi VERSION 3.3 LANGUAGES C ASM)
++project(libffi VERSION 3.4.4 LANGUAGES C ASM)
 +
 +set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 +
 +
 +# config variables for ffi.h.in
-+set(VERSION 3.3)
++set(VERSION 3.4.4)
 +
 +
 +set(HAVE_LONG_DOUBLE 0)
@@ -243,6 +243,23 @@ index 0000000..5e58503
 +include(CMakeASMInformation)
 +set(ASM_DIALECT)
 \ No newline at end of file
+diff --git a/cmake/modules/CMakeASM_ARMASMLinkerInformation.cmake b/cmake/modules/CMakeASM_ARMASMLinkerInformation.cmake
+new file mode 100644
+index 0000000..7049623
+--- /dev/null
++++ b/cmake/modules/CMakeASM_ARMASMLinkerInformation.cmake
+@@ -0,0 +1,10 @@
++# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
++# file LICENSE.rst or https://cmake.org/licensing for details.
++
++
++# support for the MS assembler, masm and masm64
++
++# Load the generic ASMInformation file:
++set(ASM_DIALECT "_MASM")
++include(Internal/CMakeASMLinkerInformation)
++set(ASM_DIALECT)
+\ No newline at end of file
 diff --git a/cmake/modules/CMakeDetermineASM_ARMASMCompiler.cmake b/cmake/modules/CMakeDetermineASM_ARMASMCompiler.cmake
 new file mode 100644
 index 0000000..9ba81be
@@ -321,10 +338,10 @@ index 0000000..8461c3b
 +#define PACKAGE "libffi"
 +#define PACKAGE_BUGREPORT "http://github.com/atgreen/libffi/issues"
 +#define PACKAGE_NAME "libffi"
-+#define PACKAGE_STRING "libffi 3.3"
++#define PACKAGE_STRING "libffi 3.4.4"
 +#define PACKAGE_TARNAME "libffi"
 +#define PACKAGE_URL ""
-+#define PACKAGE_VERSION "3.3"
++#define PACKAGE_VERSION "3.4.4"
 +#define SIZEOF_DOUBLE 8
 +#define SIZEOF_LONG_DOUBLE 8
 +#ifndef _WIN64
@@ -338,7 +355,7 @@ index 0000000..8461c3b
 +#define SYMBOL_UNDERSCORE 1
 +#endif
 +#endif
-+#define VERSION "3.3"
++#define VERSION "3.4.4"
 +#if defined AC_APPLE_UNIVERSAL_BUILD
 +# if defined __BIG_ENDIAN__
 +#  define WORDS_BIGENDIAN 1
