@@ -143,8 +143,8 @@ add_dependency_project_package(bzip2 1.0.8)
 
 ExternalProject_Add(expat
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://github.com/libexpat/libexpat/archive/R_2_7_1.tar.gz
-    URL_HASH SHA256=85372797ff0673a8fc4a6be16466bb5a0ca28c0dcf3c6f7ac1686b4a3ba2aabb
+    URL https://github.com/libexpat/libexpat/archive/R_2_7_3.tar.gz
+    URL_HASH SHA256=7c853a76f7c2a562c3edfd84ca47e487d9eff3966786191dfb60cc441daf82d6
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     UPDATE_DISCONNECTED ON
     CMAKE_ARGS
@@ -157,7 +157,7 @@ ExternalProject_Add(expat
         -DEXPAT_SHARED_LIBS:BOOL=OFF
   SOURCE_SUBDIR expat
 )
-add_dependency_project_package(expat 2.7.1)
+add_dependency_project_package(expat 2.7.3)
 
 ExternalProject_Add(libiconv
     GIT_REPOSITORY https://github.com/Paxxi/libiconv
@@ -173,14 +173,14 @@ add_dependency_project_package(libiconv 1.16)
 
 ExternalProject_Add(openssl
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://www.openssl.org/source/openssl-3.0.17.tar.gz
-    URL_HASH SHA256=dfdd77e4ea1b57ff3a6dbde6b0bdc3f31db5ac99e7fdd4eaf9e1fbb6ec2db8ce
+    URL https://www.openssl.org/source/openssl-3.0.18.tar.gz
+    URL_HASH SHA256=d80c34f5cf902dccf1f1b5df5ebb86d0392e37049e5d73df1b3abae72e4ffe8b
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(openssl 3.0.17)
+add_dependency_project_package(openssl 3.0.18)
 
 ExternalProject_Add(zlib
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -303,15 +303,15 @@ add_dependency_project_package(harfbuzz 2.8.0)
 
 ExternalProject_Add(sqlite
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://www.sqlite.org/2025/sqlite-amalgamation-3500300.zip
-    URL_HASH SHA256=9ad6d16cbc1df7cd55c8b55127c82a9bca5e9f287818de6dc87e04e73599d754
+    URL https://www.sqlite.org/2025/sqlite-amalgamation-3500400.zip
+    URL_HASH SHA256=1d3049dd0f830a025a53105fc79fd2ab9431aea99e137809d064d8ee8356b032
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DBUILD_SHARED_LIBS:BOOL=ON
 )
-add_dependency_project_package(sqlite 3500300)
+add_dependency_project_package(sqlite 3500400)
 
 ExternalProject_Add(tinyxml
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -522,7 +522,7 @@ add_dependency_project_package(libwebp 1.0.3)
 ExternalProject_Add(mariadb-connector-c
     DEPENDS openssl
     GIT_REPOSITORY https://github.com/thexai/mariadb-connector-c
-    GIT_TAG 1ad1ad6b25a95950ed7b81907a2ed28553d47343
+    GIT_TAG e5dc7e86a0fc2dfd3f36efd5522570db245df57e
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
@@ -542,7 +542,7 @@ ExternalProject_Add(mariadb-connector-c
         -DWITH_SSL:STRING=OPENSSL
         -DWITH_UNIT_TESTS:BOOL=OFF
 )
-add_dependency_project_package(mariadb-connector-c 3.3.15)
+add_dependency_project_package(mariadb-connector-c 3.3.17)
 
 ExternalProject_Add(libffi
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -558,14 +558,14 @@ add_dependency_project_package(libffi 3.3.0)
 ExternalProject_Add(python
     DEPENDS bzip2 openssl sqlite zlib expat libffi xz
     GIT_REPOSITORY https://github.com/thexai/cpython
-    GIT_TAG cd49742c0d35faf0eb3302ff4815bebb79e3340b
+    GIT_TAG 09051503302b44a5df9f174154b98c5607542719
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/bzip2%3B%3B${PREFIX}/openssl%3B%3B${PREFIX}/sqlite%3B%3B${PREFIX}/zlib%3B%3B${PREFIX}/libffi%3B%3B${PREFIX}/xz%3B%3B${PREFIX}/expat
 )
-add_dependency_project_package(python 3.13.7)
+add_dependency_project_package(python 3.13.9)
 
 ExternalProject_Add(libjpeg-turbo
     GIT_REPOSITORY https://github.com/Paxxi/libjpeg-turbo
