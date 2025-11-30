@@ -424,14 +424,16 @@ ExternalProject_Add(libbdplus
 add_dependency_project_package(libbdplus 0.1.2)
 
 ExternalProject_Add(libmicrohttpd
-    GIT_REPOSITORY https://github.com/Paxxi/libmicrohttpd
-    GIT_TAG 3ef6844ec76d867a2188a345938643653f837209
-    GIT_SHALLOW ON
+    DOWNLOAD_NAME libmicrohttpd-0.9.77.tar.gz
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.77.tar.gz
+    URL_HASH SHA256=9e7023a151120060d2806a6ea4c13ca9933ece4eacfc5c9464d20edddb76b0a0
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(libmicrohttpd 0.9.69)
+add_dependency_project_package(libmicrohttpd 0.9.77)
 
 ExternalProject_Add(libxml2
     DEPENDS libiconv
