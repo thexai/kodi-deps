@@ -424,9 +424,8 @@ ExternalProject_Add(libbdplus
 add_dependency_project_package(libbdplus 0.1.2)
 
 ExternalProject_Add(libmicrohttpd
-    DOWNLOAD_NAME libmicrohttpd-0.9.77.tar.gz
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.77.tar.gz
+    URL https://ftpmirror.gnu.org/libmicrohttpd/libmicrohttpd-0.9.77.tar.gz
     URL_HASH SHA256=9e7023a151120060d2806a6ea4c13ca9933ece4eacfc5c9464d20edddb76b0a0
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
