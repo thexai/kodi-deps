@@ -425,14 +425,14 @@ add_dependency_project_package(libbdplus 0.1.2)
 
 ExternalProject_Add(libmicrohttpd
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://ftpmirror.gnu.org/libmicrohttpd/libmicrohttpd-0.9.77.tar.gz
-    URL_HASH SHA256=9e7023a151120060d2806a6ea4c13ca9933ece4eacfc5c9464d20edddb76b0a0
+    URL https://ftpmirror.gnu.org/libmicrohttpd/libmicrohttpd-1.0.1.tar.gz
+    URL_HASH SHA256=a89e09fc9b4de34dde19f4fcb4faaa1ce10299b9908db1132bbfa1de47882b94
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(libmicrohttpd 0.9.77)
+add_dependency_project_package(libmicrohttpd 1.0.1)
 
 ExternalProject_Add(libxml2
     DEPENDS libiconv
