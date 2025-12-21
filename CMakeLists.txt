@@ -197,14 +197,19 @@ add_dependency_project_package(zlib 1.3.1)
 
 ExternalProject_Add(xz
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://netix.dl.sourceforge.net/project/lzmautils/xz-5.2.5.tar.gz
-    URL_HASH SHA256=f6f4910fd033078738bd82bfba4f49219d03b17eb0794eb91efbae419f4aba10
+    URL https://github.com/tukaani-project/xz/releases/download/v5.8.1/xz-5.8.1.tar.gz
+    URL_HASH SHA256=507825b599356c10dca1cd720c9d0d0c9d5400b9de300af00e4d1ea150795543
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
+        -DXZ_TOOL_XZ:BOOL=OFF
+        -DXZ_TOOL_LZMAINFO:BOOL=OFF
+        -DXZ_TOOL_XZDEC:BOOL=OFF
+        -DXZ_TOOL_LZMADEC:BOOL=OFF
+        -DXZ_DOC:BOOL=OFF
 )
-add_dependency_project_package(xz 5.2.5)
+add_dependency_project_package(xz 5.8.1)
 
 ExternalProject_Add(miniwdk
     GIT_REPOSITORY https://github.com/Paxxi/miniwdk
@@ -547,26 +552,40 @@ add_dependency_project_package(mariadb-connector-c 3.3.17)
 
 ExternalProject_Add(libffi
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://github.com/libffi/libffi/archive/refs/tags/v3.3-rc1.tar.gz
-    URL_HASH SHA256=87cbd612fa20f8eb7b91a3e996c5032b813644deee6c2d96724b50752296737e
+    URL https://github.com/libffi/libffi/archive/refs/tags/v3.4.4.tar.gz
+    URL_HASH SHA256=828639972716ed18833df7b659b32060591fe0eb625a8d34078920d33c2dc867
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(libffi 3.3.0)
+add_dependency_project_package(libffi 3.4.4)
+
+ExternalProject_Add(zstd
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.gz
+    URL_HASH SHA256=eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
+    SOURCE_SUBDIR build/cmake
+    CMAKE_ARGS
+        ${ADDITIONAL_ARGS}
+        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
+        -DZSTD_BUILD_STATIC:BOOL=ON
+        -DZSTD_BUILD_DYNAMIC:BOOL=OFF
+)
+add_dependency_project_package(zstd 1.5.7)
 
 ExternalProject_Add(python
-    DEPENDS bzip2 openssl sqlite zlib expat libffi xz
+    DEPENDS bzip2 openssl sqlite zlib expat libffi xz zstd
     GIT_REPOSITORY https://github.com/thexai/cpython
-    GIT_TAG 09051503302b44a5df9f174154b98c5607542719
+    GIT_TAG e170687208abb826b566ea132987f5441af14285
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/bzip2%3B%3B${PREFIX}/openssl%3B%3B${PREFIX}/sqlite%3B%3B${PREFIX}/zlib%3B%3B${PREFIX}/libffi%3B%3B${PREFIX}/xz%3B%3B${PREFIX}/expat
+        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/bzip2%3B%3B${PREFIX}/openssl%3B%3B${PREFIX}/sqlite%3B%3B${PREFIX}/zlib%3B%3B${PREFIX}/libffi%3B%3B${PREFIX}/xz%3B%3B${PREFIX}/expat%3B%3B${PREFIX}/zstd
 )
-add_dependency_project_package(python 3.13.9)
+add_dependency_project_package(python 3.14.2)
 
 ExternalProject_Add(libjpeg-turbo
     GIT_REPOSITORY https://github.com/Paxxi/libjpeg-turbo
@@ -586,14 +605,14 @@ add_dependency_project_package(libjpeg-turbo 2.0.3)
 ExternalProject_Add(pillow
     DEPENDS freetype libjpeg-turbo python zlib
     GIT_REPOSITORY https://github.com/thexai/Pillow
-    GIT_TAG dbde60e30ffc8bfe8c461b576d41343f46e9553e
+    GIT_TAG 31fd143d0e8338a0c226321cd18f00bec3cbeaf1
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/freetype%3B%3B${PREFIX}/libjpeg-turbo%3B%3B${PREFIX}/python%3B%3B${PREFIX}/zlib
 )
-add_dependency_project_package(pillow 11.2.1)
+add_dependency_project_package(pillow 12.0.0)
 
 ExternalProject_Add(pycryptodome
     DEPENDS python
@@ -730,6 +749,7 @@ add_custom_target(DependenciesRequired
         winflexbison
         xz
         zlib
+        zstd
         uwp_compat
 )
 
