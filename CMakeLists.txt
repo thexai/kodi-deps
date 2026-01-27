@@ -222,17 +222,6 @@ ExternalProject_Add(miniwdk
 # Causes miniwdk zip target to be added and it can't be built on github
 #add_dependency_project_package(miniwdk 10.0.18362 ANY)
 
-ExternalProject_Add(crossguid
-    GIT_REPOSITORY https://github.com/Paxxi/crossguid
-    GIT_TAG 76116f6794a5c582a8b38b8e02651b8065d81c39
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DXG_TESTS:BOOL=OFF
-)
-add_dependency_project_package(crossguid 0.2.2)
-
 ExternalProject_Add(flatbuffers
     GIT_REPOSITORY https://github.com/Paxxi/flatbuffers
     GIT_TAG 46d447759eb599ed7ea8a2ab297db6ac40e2bbd1
@@ -428,17 +417,6 @@ ExternalProject_Add(libbdplus
 )
 add_dependency_project_package(libbdplus 0.1.2)
 
-ExternalProject_Add(libmicrohttpd
-    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://ftpmirror.gnu.org/libmicrohttpd/libmicrohttpd-1.0.1.tar.gz
-    URL_HASH SHA256=a89e09fc9b4de34dde19f4fcb4faaa1ce10299b9908db1132bbfa1de47882b94
-    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-)
-add_dependency_project_package(libmicrohttpd 1.0.1)
-
 ExternalProject_Add(libxml2
     DEPENDS libiconv
     GIT_REPOSITORY https://github.com/Paxxi/libxml2
@@ -524,31 +502,6 @@ ExternalProject_Add(libwebp
         -DWEBP_BUILD_EXTRAS=OFF
 )
 add_dependency_project_package(libwebp 1.0.3)
-
-ExternalProject_Add(mariadb-connector-c
-    DEPENDS openssl
-    GIT_REPOSITORY https://github.com/thexai/mariadb-connector-c
-    GIT_TAG e5dc7e86a0fc2dfd3f36efd5522570db245df57e
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/openssl
-        -DBUILD_SHARED_LIBS:BOOL=ON
-        -DPLUGIN_AUTH_GSSAPI_CLIENT:STRING=OFF
-        -DPLUGIN_DIALOG:STRING=STATIC
-        -DPLUGIN_MYSQL_CLEAR_PASSWORD:STRING=STATIC
-        -DPLUGIN_PVIO_NPIPE:STRING=STATIC
-        -DPLUGIN_PVIO_SHMEM:STRING=STATIC
-        -DPLUGIN_SHA256_PASSWORD:STRING=STATIC
-        -DPLUGIN_CLIENT_ED25519:STRING=STATIC
-        -DPLUGIN_CACHING_SHA2_PASSWORD:STRING=STATIC
-        -DWITH_CURL:BOOL=OFF
-        -DWITH_MYSQLCOMPAT:BOOL=ON
-        -DWITH_SSL:STRING=OPENSSL
-        -DWITH_UNIT_TESTS:BOOL=OFF
-)
-add_dependency_project_package(mariadb-connector-c 3.3.17)
 
 ExternalProject_Add(libffi
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -666,18 +619,6 @@ ExternalProject_Add(libbluray
 )
 add_dependency_project_package(libbluray 1.3.4)
 
-ExternalProject_Add(dav1d
-    DOWNLOAD_NAME dav1d-1.5.1.tar.gz
-    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://code.videolan.org/videolan/dav1d/-/archive/1.5.1/dav1d-1.5.1.tar.gz
-    URL_HASH SHA256=fa635e2bdb25147b1384007c83e15de44c589582bb3b9a53fc1579cb9d74b695
-    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-)
-add_dependency_project_package(dav1d 1.5.1)
-
 ExternalProject_Add(GoogleTest
     GIT_REPOSITORY https://github.com/Google/GoogleTest
     GIT_TAG 703bd9caab50b139428cea1aaff9974ebee5742e
@@ -710,10 +651,7 @@ add_dependency_project_package(date 3.0.1)
 add_custom_target(DependenciesRequired
     DEPENDS
         bzip2
-        crossguid
-        curl
         date
-        dav1d
         expat
         flatbuffers
         freetype
@@ -732,13 +670,11 @@ add_custom_target(DependenciesRequired
         libgcrypt
         libjpeg-turbo
         libiconv
-        libmicrohttpd
         libpng
         libudfread
         libwebp
         libxml2
         libxslt
-        mariadb-connector-c
         #miniwdk # WDK is not installed on github hosted runners
         openssl
         python
@@ -755,7 +691,6 @@ add_custom_target(DependenciesRequired
 
 add_custom_target(DependenciesRequiredDebug
     DEPENDS
-        crossguid
         date
         detours
         GoogleTest
