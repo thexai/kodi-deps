@@ -588,31 +588,33 @@ ExternalProject_Add(python
 add_dependency_project_package(python 3.14.2)
 
 ExternalProject_Add(libjpeg-turbo
-    GIT_REPOSITORY https://github.com/Paxxi/libjpeg-turbo
-    GIT_TAG 38bff2bf9e3e183f06da5b02b5b69d8eecdf7335
-    GIT_SHALLOW ON
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.1.3/libjpeg-turbo-3.1.3.tar.gz
+    URL_HASH SHA256=075920b826834ac4ddf97661cc73491047855859affd671d52079c6867c1c6c0
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DENABLE_SHARED:BOOL=OFF
         -DENABLE_STATIC:BOOL=ON
         -DWITH_JPEG8:BOOL=ON
-        -DWITH_SIMD:BOOL=OFF
+        -DWITH_SIMD:BOOL=ON
         -DWITH_CRT_DLL:BOOL=ON
+        -DWITH_TOOLS:BOOL=OFF
 )
-add_dependency_project_package(libjpeg-turbo 2.0.3)
+add_dependency_project_package(libjpeg-turbo 3.1.3)
 
 ExternalProject_Add(pillow
     DEPENDS freetype libjpeg-turbo python zlib
     GIT_REPOSITORY https://github.com/thexai/Pillow
-    GIT_TAG 31fd143d0e8338a0c226321cd18f00bec3cbeaf1
+    GIT_TAG e214c7bd69eb375773265a9d64c08dd2f95a7a02
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/freetype%3B%3B${PREFIX}/libjpeg-turbo%3B%3B${PREFIX}/python%3B%3B${PREFIX}/zlib
 )
-add_dependency_project_package(pillow 12.0.0)
+add_dependency_project_package(pillow 12.1.0)
 
 ExternalProject_Add(pycryptodome
     DEPENDS python
