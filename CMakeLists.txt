@@ -120,17 +120,6 @@ endif()
 
 # dependencies required by others
 
-ExternalProject_Add(uwp_compat
-    GIT_REPOSITORY https://github.com/Paxxi/uwp_compat
-    GIT_TAG feb56bc2c4573b8657bba2b40648f0b2e2ecf72b
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DBUILD_SHARED_LIBS:BOOL=OFF
-)
-add_dependency_project_package(uwp_compat 0.1)
-
 ExternalProject_Add(bzip2
     GIT_REPOSITORY https://github.com/Paxxi/bzip2
     GIT_TAG 6aba9bd98f1c67c9266a15884695ca04b7633445
@@ -681,7 +670,6 @@ add_custom_target(DependenciesRequired
         xz
         zlib
         zstd
-        uwp_compat
 )
 
 add_custom_target(DependenciesRequiredDebug

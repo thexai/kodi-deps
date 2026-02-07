@@ -48,7 +48,6 @@ Param(
     'xz',
     'zlib',
     'zstd',
-    'uwp_compat',
     'DependenciesRequired',
     'DependenciesRequiredDebug'
   )]
