@@ -409,16 +409,17 @@ ExternalProject_Add(libaacs
 add_dependency_project_package(libaacs 0.9.0)
 
 ExternalProject_Add(libbdplus
-    DEPENDS libgcrypt libgpg-error libiconv uwp_compat
-    GIT_REPOSITORY https://github.com/Paxxi/libbdplus
-    GIT_TAG c37157774aaaf5a1002474c17d966c4d0996b889
-    GIT_SHALLOW ON
+    DEPENDS libgcrypt libgpg-error libiconv
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://download.videolan.org/pub/videolan/libbdplus/0.2.0/libbdplus-0.2.0.tar.bz2
+    URL_HASH SHA256=b93eea3eaef33d6e9155d2c34b068c505493aa5a4936e63274f4342ab0f40a58
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/libgcrypt%3B%3B${PREFIX}/libgpg-error%3B%3B${PREFIX}/libiconv%3B%3B${PREFIX}/uwp_compat
+        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/libgcrypt%3B%3B${PREFIX}/libgpg-error%3B%3B${PREFIX}/libiconv
 )
-add_dependency_project_package(libbdplus 0.1.2)
+add_dependency_project_package(libbdplus 0.2.0)
 
 ExternalProject_Add(libxml2
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
