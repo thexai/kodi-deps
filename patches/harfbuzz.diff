@@ -1,0 +1,46 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3ad5e433f..cda10c54f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.14)
++cmake_minimum_required(VERSION 3.15)
+ project(harfbuzz)
+ 
+ message(WARNING "The main build system for HarfBuzz is Meson. CMake build support is community-maintained and is not actively supported by HarfBuzz developers.")
+@@ -507,9 +507,7 @@ target_link_libraries(harfbuzz ${THIRD_PARTY_LIBS})
+ if (MINGW)
+     target_compile_options(harfbuzz PRIVATE "-Wa,-mbig-obj")
+ endif()
+-target_include_directories(harfbuzz PUBLIC
+-                           "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>"
+-                           "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/harfbuzz>")
++target_include_directories(harfbuzz INTERFACE $<INSTALL_INTERFACE:include/harfbuzz>)
+ set_target_properties(harfbuzz PROPERTIES VISIBILITY_INLINES_HIDDEN TRUE)
+ if (HB_HAVE_FREETYPE AND TARGET freetype)
+   target_link_libraries(harfbuzz freetype)
+@@ -884,6 +882,24 @@ if (NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL)
+   endif ()
+ endif ()
+ 
++set_target_properties(harfbuzz
++  PROPERTIES
++    COMPILE_PDB_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
++    COMPILE_PDB_NAME harfbuzz
++    COMPILE_PDB_NAME_DEBUG harfbuzzd
++    OUTPUT_NAME_DEBUG harfbuzzd
++)
++install(FILES
++  ${PROJECT_BINARY_DIR}/RelWithDebInfo/harfbuzz.pdb
++  DESTINATION lib
++  CONFIGURATIONS RelWithDebInfo
++)
++install(FILES
++  ${PROJECT_BINARY_DIR}/Debug/harfbuzzd.pdb
++  DESTINATION lib
++  CONFIGURATIONS Debug
++)
++
+ # get these variables in the required format
+ list(REMOVE_DUPLICATES PC_REQUIRES_PRIV)
+ string(REPLACE ";" ", " PC_REQUIRES_PRIV "${PC_REQUIRES_PRIV}")

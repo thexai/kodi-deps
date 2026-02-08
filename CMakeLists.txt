@@ -237,14 +237,15 @@ ExternalProject_Add(flatbuffers
 add_dependency_project_package(flatbuffers 2.0.0)
 
 ExternalProject_Add(freetype
-    GIT_REPOSITORY https://github.com/Paxxi/freetype2
-    GIT_TAG c5832e61dbec993c84ca4996b0ad4f73d3794a98
-    GIT_SHALLOW ON
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://download.savannah.gnu.org/releases/freetype/freetype-2.14.1.tar.xz
+    URL_HASH SHA256=32427e8c471ac095853212a37aef816c60b42052d4d9e48230bab3bdf2936ccc
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(freetype 2.10.1)
+add_dependency_project_package(freetype 2.14.1)
 
 ExternalProject_Add(fstrcmp
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -282,18 +283,20 @@ add_dependency_project_package(libfribidi 1.0.8)
 
 ExternalProject_Add(harfbuzz
     DEPENDS freetype
-    GIT_REPOSITORY https://github.com/Paxxi/harfbuzz
-    GIT_TAG bcd28eaf3339b6b6762a7914ee7a9e734dccfa42
-    GIT_SHALLOW ON
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://github.com/harfbuzz/harfbuzz/releases/download/12.3.2/harfbuzz-12.3.2.tar.xz
+    URL_HASH SHA256=6f6db164359a2da5a84ef826615b448b33e6306067ad829d85d5b0bf936f1bb8
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
-        -DHB_HAVE_DIRECTWRITE=ON
-        -DHB_HAVE_FREETYPE=ON
-        -DBUILD_SHARED_LIBS=ON
+        -DHB_HAVE_DIRECTWRITE:BOOL=ON
+        -DHB_HAVE_FREETYPE:BOOL=ON
+        -DHB_BUILD_SUBSET:BOOL=OFF
+        -DBUILD_SHARED_LIBS:BOOL=ON
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/freetype
 )
-add_dependency_project_package(harfbuzz 2.8.0)
+add_dependency_project_package(harfbuzz 12.3.2)
 
 ExternalProject_Add(sqlite
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
