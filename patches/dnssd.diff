@@ -1,18 +1,15 @@
 --- /dev/null
 +++ b/CMakeLists.txt
-@@ -0,0 +1,83 @@
-+cmake_minimum_required(VERSION 3.2)
+@@ -0,0 +1,82 @@
++cmake_minimum_required(VERSION 3.15)
 +
-+project(dnssd LANGUAGES C CXX)
-+
-+set(dnssd_VERSION 765.50.9)
++project(dnssd VERSION 2881.60.4 LANGUAGES C CXX)
 +
 +if(MSVC)
 +  set(CMAKE_DEBUG_POSTFIX "d")
 +endif()
 +
-+
-+add_library(${PROJECT_NAME} 
++add_library(${PROJECT_NAME} SHARED
 +  mDNSShared/CommonServices.h
 +  mDNSShared/DebugServices.h
 +  mDNSShared/DebugServices.c
@@ -28,7 +25,8 @@
 +  mDNSWindows/DLL/dnssd.def
 +  mDNSWindows/DLL/resource.h
 +)
-+target_include_directories(dnssd
++
++target_include_directories(${PROJECT_NAME}
 +  PRIVATE
 +  $<BUILD_INTERFACE:mDNSCore/;mDNSShared/;mDNSWindows/;mDNSWindows/DLL>
 +  INTERFACE
@@ -39,14 +37,15 @@
 +  _USRDLL
 +  MDNS_DEBUGMSGS=0
 +  WIN32_LEAN_AND_MEAN
++  WIN32_CENTENNIAL
 +  USE_TCP_LOOPBACK
 +  _CRT_SECURE_NO_DEPRECATE
 +  _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1
 +  NOT_HAVE_SA_LEN
++  LOG_ERR=kDebugLevelError
 +)
 +
 +target_link_libraries(${PROJECT_NAME} PRIVATE ws2_32.lib Advapi32.lib)
-+
 +
 +include(CMakePackageConfigHelpers)
 +write_basic_package_version_file(
@@ -58,8 +57,8 @@
 +install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
 +  RUNTIME DESTINATION bin
 +  ARCHIVE DESTINATION lib
-+  LIBRARY DESTINATION lib)
-+
++  LIBRARY DESTINATION lib
++)
 +
 +install(FILES mDNSShared/dns_sd.h DESTINATION include)
 +
@@ -88,37 +87,3 @@
 +++ b/cmake/dnssd-config.cmake
 @@ -0,0 +1 @@
 +include(${CMAKE_CURRENT_LIST_DIR}/dnssd.cmake)
---- a/mDNSShared/CommonServices.h
-+++ b/mDNSShared/CommonServices.h
-@@ -747,10 +747,12 @@ typedef int ssize_t;
- 
-     #define INT8_MIN                    SCHAR_MIN
- 
--    #if ( defined( _MSC_VER ) )
- 
- // C99 stdint.h not supported in VC++/VS.NET yet.
--
-+#if _MSC_VER >= 1900
-+#include <stdint.h>
-+#endif
-+#if _MSC_VER < 1900
- typedef INT8 int8_t;
- typedef UINT8 uint8_t;
- typedef INT16 int16_t;
-@@ -765,6 +767,7 @@ typedef long long int64_t;
- typedef unsigned long long uint64_t;
-     #endif
- 
-+#if _MSC_VER < 1900
- typedef int8_t int_least8_t;
- typedef int16_t int_least16_t;
- typedef int32_t int_least32_t;
-@@ -784,6 +787,7 @@ typedef uint8_t uint_fast8_t;
- typedef uint16_t uint_fast16_t;
- typedef uint32_t uint_fast32_t;
- typedef uint64_t uint_fast64_t;
-+#endif
- 
-     #if ( !defined( _MSC_VER ) || TARGET_OS_WINDOWS_CE )
- typedef long int intptr_t;
- typedef unsigned long int uintptr_t;
