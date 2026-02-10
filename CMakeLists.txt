@@ -418,44 +418,34 @@ ExternalProject_Add(libbdplus
 add_dependency_project_package(libbdplus 0.1.2)
 
 ExternalProject_Add(libxml2
-    DEPENDS libiconv
-    GIT_REPOSITORY https://github.com/Paxxi/libxml2
-    GIT_TAG c9e6dae59f576f0e40dbef5d52f11b3de00e8a7d
-    GIT_SHALLOW ON
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.1.tar.xz
+    URL_HASH SHA256=c008bac08fd5c7b4a87f7b8a71f283fa581d80d80ff8d2efd3b26224c39bc54c
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/libiconv
         -DBUILD_SHARED_LIBS:BOOL=ON
+        -DLIBXML2_WITH_DEBUG:BOOL=OFF
+        -DLIBXML2_WITH_ICONV:BOOL=OFF
+        -DLIBXML2_WITH_MODULES:BOOL=OFF
+        -DLIBXML2_WITH_PROGRAMS:BOOL=OFF
+        -DLIBXML2_WITH_TESTS:BOOL=OFF
 )
-add_dependency_project_package(libxml2 2.9.9)
-
-ExternalProject_Add(libxslt
-    DEPENDS libiconv libxml2 uwp_compat
-    GIT_REPOSITORY https://github.com/Paxxi/libxslt
-    GIT_TAG f63869008f803398f86697031201f83812d65732
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/libiconv%3B%3B${PREFIX}/libxml2%3B%3B${PREFIX}/uwp_compat
-        -DBUILD_SHARED_LIBS:BOOL=ON
-)
-add_dependency_project_package(libxslt 1.1.34)
+add_dependency_project_package(libxml2 2.15.1)
 
 if(NOT WINDOWS_STORE)
 ExternalProject_Add(libplist
-    DEPENDS libiconv libxml2
-    GIT_REPOSITORY https://github.com/Paxxi/libplist
-    GIT_TAG 80d48b2bbec8dfb0c81db2074dedfa5b92fb2593
-    GIT_SHALLOW ON
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://github.com/libimobiledevice/libplist/releases/download/2.7.0/libplist-2.7.0.tar.bz2
+    URL_HASH SHA256=7ac42301e896b1ebe3c654634780c82baa7cb70df8554e683ff89f7c2643eb8b
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/libiconv%3B%3B${PREFIX}/libxml2
         -DBUILD_SHARED_LIBS:BOOL=ON
 )
-add_dependency_project_package(libplist 2.1.0)
+add_dependency_project_package(libplist 2.7.0)
 endif()
 
 ExternalProject_Add(giflib
@@ -676,7 +666,6 @@ add_custom_target(DependenciesRequired
         libudfread
         libwebp
         libxml2
-        libxslt
         #miniwdk # WDK is not installed on github hosted runners
         openssl
         python

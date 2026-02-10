@@ -179,7 +179,7 @@
 +endif(NOT WINDOWS_STORE)
 +
 +add_library(libbluray SHARED ${SRCS})
-+target_link_libraries(libbluray PRIVATE freetype::freetype iconv::iconv libxml2::libxml2 libudfread::libudfread)
++target_link_libraries(libbluray PRIVATE freetype::freetype iconv::iconv LibXml2::LibXml2 libudfread::libudfread)
 +set_target_properties(libbluray
 +  PROPERTIES
 +    LINK_FLAGS "/DEF:\"libbluray.def\""
