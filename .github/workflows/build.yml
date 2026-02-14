@@ -21,6 +21,8 @@ jobs:
         exclude:
           - arch: arm64
             platform: -App
+          - arch: win32
+            platform: -App
     runs-on: windows-2022
 
     steps:
