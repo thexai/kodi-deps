@@ -259,16 +259,17 @@ add_dependency_project_package(fstrcmp 0.7)
 
 ExternalProject_Add(libcdio
     DEPENDS libiconv
-    GIT_REPOSITORY https://github.com/Paxxi/libcdio
-    GIT_TAG 312d5b1ff684960095521be5e287eaeb5aaad4a5
-    GIT_SHALLOW ON
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://github.com/libcdio/libcdio/releases/download/2.3.0/libcdio-2.3.0.tar.bz2
+    URL_HASH SHA256=53e83d284667535a767fd2d31edad1a6701591960459df373a10f1f21e80a7ed
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DBUILD_SHARED_LIBS:BOOL=ON
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/libiconv
 )
-add_dependency_project_package(libcdio 2.1.0)
+add_dependency_project_package(libcdio 2.3.0)
 
 ExternalProject_Add(libfribidi
     GIT_REPOSITORY https://github.com/thexai/fribidi
