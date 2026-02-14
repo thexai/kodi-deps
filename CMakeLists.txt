@@ -335,15 +335,15 @@ endif()
 if(NOT WINDOWS_STORE)
 ExternalProject_Add(dnssd
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://opensource.apple.com/tarballs/mDNSResponder/mDNSResponder-878.260.1.tar.gz
-    URL_HASH SHA256=d6ba7bdfa06bee1255a67ac0a4fff92f48255360f8326ade92efe66d85068e1d
+    URL https://opensource.apple.com/tarballs/mDNSResponder/mDNSResponder-2881.60.4.tar.gz
+    URL_HASH SHA256=192b74fa5f4fdd985d6347bc2b39fed9b194c633f7cf7392f0a4c4d8b64c96a7
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DBUILD_SHARED_LIBS:BOOL=ON
 )
-add_dependency_project_package(dnssd 878.260.1)
+add_dependency_project_package(dnssd 2881.60.4)
 endif()
 
 ExternalProject_Add(lcms2
