@@ -35,7 +35,6 @@ Param(
     'libudfread',
     'libwebp',
     'libxml2',
-    'libxslt',
     'miniwdk',
     'openssl',
     'python',
