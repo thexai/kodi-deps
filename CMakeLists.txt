@@ -222,20 +222,6 @@ ExternalProject_Add(miniwdk
 # Causes miniwdk zip target to be added and it can't be built on github
 #add_dependency_project_package(miniwdk 10.0.18362 ANY)
 
-ExternalProject_Add(flatbuffers
-    GIT_REPOSITORY https://github.com/Paxxi/flatbuffers
-    GIT_TAG 46d447759eb599ed7ea8a2ab297db6ac40e2bbd1
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DFLATBUFFERS_BUILD_FLATC:BOOL=OFF
-        -DFLATBUFFERS_BUILD_FLATHASH:BOOL=OFF
-        -DFLATBUFFERS_BUILD_FLATLIB:BOOL=OFF
-        -DFLATBUFFERS_BUILD_TESTS:BOOL=OFF
-)
-add_dependency_project_package(flatbuffers 2.0.0)
-
 ExternalProject_Add(freetype
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
     URL https://download.savannah.gnu.org/releases/freetype/freetype-2.14.1.tar.xz
@@ -635,30 +621,10 @@ ExternalProject_Add(GoogleTest
 )
 add_dependency_project_package(GoogleTest 1.10.0)
 
-ExternalProject_Add(date
-    GIT_REPOSITORY https://github.com/Paxxi/date
-    GIT_TAG e9943526c2ba23746b3fe4fb0522be85b1efcd00
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DUSE_SYSTEM_TZ_DB:BOOL=OFF
-        -DUSE_TZ_DB_IN_DOT:BOOL=OFF
-        -DBUILD_SHARED_LIBS:BOOL=OFF
-        -DENABLE_DATE_TESTING:BOOL=OFF
-        -DDISABLE_STRING_VIEW:BOOL=ON
-        -DBUILD_TZ_LIB:BOOL=ON
-        -DMANUAL_TZ_DB:BOOL=ON
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}
-)
-add_dependency_project_package(date 3.0.1)
-
 add_custom_target(DependenciesRequired
     DEPENDS
         bzip2
-        date
         expat
-        flatbuffers
         freetype
         fstrcmp
         giflib
@@ -696,7 +662,6 @@ add_custom_target(DependenciesRequired
 
 add_custom_target(DependenciesRequiredDebug
     DEPENDS
-        date
         detours
         GoogleTest
         libudfread

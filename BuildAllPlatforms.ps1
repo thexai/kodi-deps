@@ -4,12 +4,10 @@ Param(
   [Parameter()]
   [ValidateSet(
     'bzip2',
-    'date',
     'detours',
     'dnssd',
     'expat',
     'flatc',
-    'flatbuffers',
     'freetype',
     'fstrcmp',
     'giflib',
