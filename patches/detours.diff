@@ -1,0 +1,131 @@
+﻿diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+index 0000000..d06e059
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,118 @@
++cmake_minimum_required(VERSION 3.15)
++
++project(detours VERSION 4.0.1 LANGUAGES CXX)
++
++add_library(detours
++  src/creatwth.cpp
++  src/detours.cpp
++  src/detours.h
++  src/detver.h
++  src/disasm.cpp
++  src/image.cpp
++  src/modules.cpp
++)
++
++target_compile_definitions(detours
++  PRIVATE
++    DETOURS_VERSION=0x${PROJECT_VERSION_MAJOR}c${PROJECT_VERSION_MINOR}c${PROJECT_VERSION_PATCH}
++    _WIN32_WINNT=0x0601
++    DETOURS_SOURCE_BROWSING=0
++)
++
++if(CMAKE_GENERATOR_PLATFORM MATCHES win32)
++  target_compile_definitions(detours
++    PRIVATE
++      DETOURS_TARGET_PROCESSOR="X86"
++  )
++  target_sources(detours
++    PRIVATE
++      src/disolx86.cpp
++  )
++elseif(CMAKE_GENERATOR_PLATFORM MATCHES x64)
++  target_compile_definitions(detours
++    PRIVATE
++      DETOURS_TARGET_PROCESSOR="X64"
++      DETOURS_OPTION_PROCESSOR=X86
++  )
++  target_sources(detours
++    PRIVATE
++      src/disolx64.cpp
++  )
++elseif(CMAKE_GENERATOR_PLATFORM MATCHES ^arm64)
++  target_compile_definitions(detours
++    PRIVATE
++      DETOURS_TARGET_PROCESSOR="ARM64"
++  )
++  target_sources(detours
++    PRIVATE
++      src/disolarm64.cpp
++  )
++elseif(CMAKE_GENERATOR_PLATFORM MATCHES ^arm)
++  target_compile_definitions(detours
++    PRIVATE
++      DETOURS_TARGET_PROCESSOR="ARM"
++  )
++  target_sources(detours
++    PRIVATE
++      src/disolarm.cpp
++  )
++else()
++  message(FATAL_ERROR "Unsupported CPU")
++endif()
++
++target_compile_options(detours PRIVATE /MP)
++
++set_target_properties(detours
++  PROPERTIES
++    OUTPUT_NAME detours
++    OUTPUT_NAME_DEBUG detoursd
++    COMPILE_PDB_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
++    COMPILE_PDB_NAME detours
++    COMPILE_PDB_NAME_DEBUG detoursd
++)
++
++include(CMakePackageConfigHelpers)
++write_basic_package_version_file(
++  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
++  VERSION ${PROJECT_VERSION}
++  COMPATIBILITY AnyNewerVersion
++)
++
++install(TARGETS detours EXPORT detours
++  RUNTIME DESTINATION bin
++  LIBRARY DESTINATION lib
++  ARCHIVE DESTINATION lib
++  INCLUDES DESTINATION include
++)
++
++install(FILES
++  src/detours.h
++  src/detver.h
++  DESTINATION include
++)
++
++install(FILES
++  ${PROJECT_BINARY_DIR}/RelWithDebInfo/detours.pdb
++  DESTINATION lib
++  CONFIGURATIONS RelWithDebInfo
++)
++
++install(FILES
++  ${PROJECT_BINARY_DIR}/Debug/detoursd.pdb
++  DESTINATION lib
++  CONFIGURATIONS Debug
++)
++
++install(FILES
++  cmake/${PROJECT_NAME}-config.cmake
++  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
++  DESTINATION
++    lib/cmake/${PROJECT_NAME}
++)
++
++install(EXPORT detours
++  NAMESPACE
++    ${PROJECT_NAME}::
++  DESTINATION
++    lib/cmake/${PROJECT_NAME}
++)
+diff --git a/cmake/detours-config.cmake b/cmake/detours-config.cmake
+new file mode 100644
+index 0000000..b6859bd
+--- /dev/null
++++ b/cmake/detours-config.cmake
+@@ -0,0 +1 @@
++include(${CMAKE_CURRENT_LIST_DIR}/detours.cmake)
