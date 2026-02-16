@@ -238,7 +238,7 @@ add_dependency_project_package(flatbuffers 2.0.0)
 
 ExternalProject_Add(freetype
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://download.savannah.gnu.org/releases/freetype/freetype-2.14.1.tar.xz
+    URL https://mirrors.kodi.tv/build-deps/sources/freetype-2.14.1.tar.xz
     URL_HASH SHA256=32427e8c471ac095853212a37aef816c60b42052d4d9e48230bab3bdf2936ccc
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
