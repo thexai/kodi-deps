@@ -1,12 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+index 0000000..5888653
 --- /dev/null
 +++ b/CMakeLists.txt
-@@ -0,0 +1,65 @@
-+cmake_minimum_required(VERSION 3.2)
+@@ -0,0 +1,80 @@
++cmake_minimum_required(VERSION 3.15)
 +
-+project(tinyXML VERSION 2.8.2 LANGUAGES CXX)
++project(tinyXML VERSION 2.6.2 LANGUAGES CXX)
 +
 +if(MSVC)
-+    set(CMAKE_DEBUG_POSTFIX "d")
++  set(CMAKE_DEBUG_POSTFIX "d")
 +endif()
 +
 +add_library(tinyXML STATIC
@@ -16,20 +19,28 @@
 +  tinyxmlparser.cpp
 +)
 +
-+target_compile_definitions(tinyXML
-+  PRIVATE
++target_compile_definitions(tinyXML PRIVATE
 +  TIXML_USE_STL
-+  _CRT_SECURE_NO_DEPRECATE
-+  _CRT_NONSTDC_NO_DEPRECATE
 +  INTERFACE
-+  TIXML_USE_STL
 +)
 +
-+if(MSVC)
-+    set_target_properties(tinyXML PROPERTIES COMPILE_PDB_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR} COMPILE_PDB_NAME tinyxmlSTL COMPILE_PDB_NAME_DEBUG tinyxmlSTLd)
-+    install(FILES ${PROJECT_BINARY_DIR}/RelWithDebInfo/tinyxmlSTL.pdb DESTINATION lib CONFIGURATIONS RelWithDebInfo)
-+    install(FILES ${PROJECT_BINARY_DIR}/Debug/tinyxmlSTLd.pdb DESTINATION lib CONFIGURATIONS Debug)
-+endif()
++set_target_properties(tinyXML PROPERTIES
++  COMPILE_PDB_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}
++  COMPILE_PDB_NAME tinyxmlSTL
++  COMPILE_PDB_NAME_DEBUG tinyxmlSTLd
++)
++
++install(FILES
++  ${PROJECT_BINARY_DIR}/RelWithDebInfo/tinyxmlSTL.pdb
++  DESTINATION lib
++  CONFIGURATIONS RelWithDebInfo
++)
++
++install(FILES
++  ${PROJECT_BINARY_DIR}/Debug/tinyxmlSTLd.pdb
++  DESTINATION lib
++  CONFIGURATIONS Debug
++)
 +
 +include(CMakePackageConfigHelpers)
 +write_basic_package_version_file(
@@ -37,14 +48,26 @@
 +  VERSION ${PROJECT_VERSION}
 +  COMPATIBILITY AnyNewerVersion
 +)
++
++install(
++  FILES
++    cmake/tinyXML-config.cmake
++    ${CMAKE_CURRENT_BINARY_DIR}/tinyXML-config-version.cmake
++  DESTINATION
++    lib/cmake/tinyXML
++)
++
 +install(TARGETS tinyXML EXPORT tinyXML
 +  RUNTIME DESTINATION bin
 +  ARCHIVE DESTINATION lib
-+  LIBRARY DESTINATION lib)
++  LIBRARY DESTINATION lib
++)
++
 +install(FILES
 +  tinystr.h
 +  tinyxml.h
-+  DESTINATION include)
++  DESTINATION include
++)
 +
 +install(EXPORT tinyXML
 +  FILE
@@ -54,18 +77,16 @@
 +  DESTINATION
 +    lib/cmake/tinyXML
 +)
-+install(
-+  FILES
-+    cmake/tinyXML-config.cmake
-+    ${CMAKE_CURRENT_BINARY_DIR}/tinyXML-config-version.cmake
-+  DESTINATION
-+    lib/cmake/tinyXML
-+)
 +
 +export(TARGETS tinyXML
-+    FILE tinyXML-config.cmake
-+    NAMESPACE tinyxml::
++  FILE
++    tinyXML-config.cmake
++  NAMESPACE
++    tinyxml::
 +)
+diff --git a/cmake/tinyXML-config.cmake b/cmake/tinyXML-config.cmake
+new file mode 100644
+index 0000000..88e7265
 --- /dev/null
 +++ b/cmake/tinyXML-config.cmake
 @@ -0,0 +1 @@
