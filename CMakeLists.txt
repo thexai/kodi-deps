@@ -301,14 +301,15 @@ add_dependency_project_package(tinyxml 2.6.2)
 # Required, dyloaded deps
 if(NOT WINDOWS_STORE)
 ExternalProject_Add(detours
-    GIT_REPOSITORY https://github.com/Paxxi/Detours
-    GIT_TAG 195b39b960cd8106ceec90b3bf9c426bda034d12
-    GIT_SHALLOW ON
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://github.com/microsoft/Detours/archive/9764ceb/Detours-9764ceb.tar.gz
+    URL_HASH SHA256=6c4397d5eab3372af971b18f5a07d61ad7a61ab7abecbcded4ce5381058e8313
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(detours 64ec13)
+add_dependency_project_package(detours 9764ceb)
 endif()
 
 if(NOT WINDOWS_STORE)
