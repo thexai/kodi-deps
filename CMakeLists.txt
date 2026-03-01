@@ -101,23 +101,6 @@ function(add_dependency_project_package name version)
 endfunction()
 
 
-# Executables for build
-
-if(NOT WINDOWS_STORE)
-ExternalProject_Add(flatc
-    GIT_REPOSITORY https://github.com/Paxxi/flatbuffers
-    GIT_TAG 46d447759eb599ed7ea8a2ab297db6ac40e2bbd1
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DFLATBUFFERS_BUILD_FLATHASH:BOOL=OFF
-        -DFLATBUFFERS_BUILD_FLATLIB:BOOL=OFF
-        -DFLATBUFFERS_BUILD_TESTS:BOOL=OFF
-)
-add_dependency_project_package(flatc 2.0.0)
-endif()
-
 # dependencies required by others
 
 ExternalProject_Add(bzip2
@@ -654,7 +637,6 @@ if(NOT WINDOWS_STORE)
 add_dependencies(DependenciesRequired
     detours
     dnssd
-    flatc
     libplist
     shairplay
 )
