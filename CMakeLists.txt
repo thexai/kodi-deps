@@ -552,29 +552,6 @@ ExternalProject_Add(shairplay
 add_dependency_project_package(shairplay ce80e00)
 endif()
 
-ExternalProject_Add(libudfread
-    GIT_REPOSITORY https://github.com/Paxxi/libudfread
-    GIT_TAG 29fcdb5280e5d1778786795b594ec9fc60bf75da
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-)
-add_dependency_project_package(libudfread 1.1.2)
-
-ExternalProject_Add(libbluray
-    DEPENDS freetype libiconv libxml2 libudfread libaacs
-    GIT_REPOSITORY https://code.videolan.org/videolan/libbluray.git
-    GIT_TAG bb5bc108ec695889855f06df338958004ff289ef
-    GIT_SHALLOW ON
-    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/freetype%3B%3B${PREFIX}/libiconv%3B%3B${PREFIX}/libxml2%3B%3B${PREFIX}/libudfread
-)
-add_dependency_project_package(libbluray 1.3.4)
-
 ExternalProject_Add(GoogleTest
     GIT_REPOSITORY https://github.com/Google/GoogleTest
     GIT_TAG 703bd9caab50b139428cea1aaff9974ebee5742e
@@ -598,7 +575,6 @@ add_custom_target(DependenciesRequired
         lcms2
         libaacs
         libbdplus
-        libbluray
         libcdio
         libffi
         libfribidi
@@ -607,7 +583,6 @@ add_custom_target(DependenciesRequired
         libjpeg-turbo
         libiconv
         libpng
-        libudfread
         libwebp
         libxml2
         #miniwdk # WDK is not installed on github hosted runners
@@ -627,7 +602,6 @@ add_custom_target(DependenciesRequiredDebug
     DEPENDS
         detours
         GoogleTest
-        libudfread
         tinyxml
 )
 
