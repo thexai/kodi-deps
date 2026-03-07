@@ -7,7 +7,6 @@ Param(
     'detours',
     'dnssd',
     'expat',
-    'flatc',
     'freetype',
     'fstrcmp',
     'giflib',
@@ -84,7 +83,6 @@ if (($null -eq $env:JAVA_HOME) -or ($env:JAVA_HOME -match 'jre')) {
 $ExcludedFromUwp = @(
   'detours',
   'dnssd',
-  'flatc',
   'libcec',
   'libplist',
   'platform',

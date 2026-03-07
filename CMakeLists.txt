@@ -101,29 +101,13 @@ function(add_dependency_project_package name version)
 endfunction()
 
 
-# Executables for build
-
-if(NOT WINDOWS_STORE)
-ExternalProject_Add(flatc
-    GIT_REPOSITORY https://github.com/Paxxi/flatbuffers
-    GIT_TAG 46d447759eb599ed7ea8a2ab297db6ac40e2bbd1
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DFLATBUFFERS_BUILD_FLATHASH:BOOL=OFF
-        -DFLATBUFFERS_BUILD_FLATLIB:BOOL=OFF
-        -DFLATBUFFERS_BUILD_TESTS:BOOL=OFF
-)
-add_dependency_project_package(flatc 2.0.0)
-endif()
-
 # dependencies required by others
 
 ExternalProject_Add(bzip2
-    GIT_REPOSITORY https://github.com/Paxxi/bzip2
-    GIT_TAG 6aba9bd98f1c67c9266a15884695ca04b7633445
-    GIT_SHALLOW ON
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
+    URL_HASH SHA256=ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
@@ -132,10 +116,10 @@ add_dependency_project_package(bzip2 1.0.8)
 
 ExternalProject_Add(expat
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://github.com/libexpat/libexpat/archive/R_2_7_3.tar.gz
-    URL_HASH SHA256=7c853a76f7c2a562c3edfd84ca47e487d9eff3966786191dfb60cc441daf82d6
+    URL https://github.com/libexpat/libexpat/archive/R_2_7_4.tar.gz
+    URL_HASH SHA256=5b356795b889d3e5b379433ece069b8781bf0727f6959ad3bbc9da0c22164f59
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
-    UPDATE_DISCONNECTED ON
+    SOURCE_SUBDIR expat
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
@@ -144,9 +128,8 @@ ExternalProject_Add(expat
         -DEXPAT_BUILD_EXAMPLES:BOOL=OFF
         -DEXPAT_BUILD_TOOLS:BOOL=OFF
         -DEXPAT_SHARED_LIBS:BOOL=OFF
-  SOURCE_SUBDIR expat
 )
-add_dependency_project_package(expat 2.7.3)
+add_dependency_project_package(expat 2.7.4)
 
 ExternalProject_Add(libiconv
     GIT_REPOSITORY https://github.com/Paxxi/libiconv
@@ -173,16 +156,14 @@ add_dependency_project_package(openssl 3.0.19)
 
 ExternalProject_Add(zlib
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz
-    URL_HASH SHA256=9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b72df23
-    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
+    URL https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz
+    URL_HASH SHA256=bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DZLIB_BUILD_EXAMPLES:BOOL=OFF
-        -DSKIP_INSTALL_FILES:BOOL=ON
+        -DZLIB_BUILD_TESTING:BOOL=OFF
 )
-add_dependency_project_package(zlib 1.3.1)
+add_dependency_project_package(zlib 1.3.2)
 
 ExternalProject_Add(xz
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -442,17 +423,18 @@ add_dependency_project_package(giflib 5.2.1)
 
 ExternalProject_Add(libpng
     DEPENDS zlib
-    GIT_REPOSITORY https://github.com/Paxxi/libpng
-    GIT_TAG b6910d90aa4b0c9c7a18fc7d140cd5ed405f278e
-    GIT_SHALLOW ON
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://github.com/pnggroup/libpng/archive/refs/tags/v1.6.55.tar.gz
+    URL_HASH SHA256=71a2c5b1218f60c4c6d2f1954c7eb20132156cae90bdb90b566c24db002782a6
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/zlib
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DPNG_TESTS:BOOL=OFF
         -DPNG_SHARED:BOOL=OFF
+        -DPNG_TOOLS:BOOL=OFF
 )
-add_dependency_project_package(libpng 1.6.37)
+add_dependency_project_package(libpng 1.6.55)
 
 ExternalProject_Add(libwebp
     DEPENDS zlib
@@ -503,7 +485,7 @@ add_dependency_project_package(zstd 1.5.7)
 ExternalProject_Add(python
     DEPENDS bzip2 openssl sqlite zlib expat libffi xz zstd
     GIT_REPOSITORY https://github.com/thexai/cpython
-    GIT_TAG 1fddcf749d49da6aa3f205d55ebf67f33ebb9fa6
+    GIT_TAG 88fc9e4fbd3e90b1437cae04234d2deb039a8414
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
@@ -532,14 +514,14 @@ add_dependency_project_package(libjpeg-turbo 3.1.3)
 ExternalProject_Add(pillow
     DEPENDS freetype libjpeg-turbo python zlib
     GIT_REPOSITORY https://github.com/thexai/Pillow
-    GIT_TAG e214c7bd69eb375773265a9d64c08dd2f95a7a02
+    GIT_TAG adb6ed96fc250f6ebad0cb6cbd10bba84619f160
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/freetype%3B%3B${PREFIX}/libjpeg-turbo%3B%3B${PREFIX}/python%3B%3B${PREFIX}/zlib
 )
-add_dependency_project_package(pillow 12.1.0)
+add_dependency_project_package(pillow 12.1.1)
 
 ExternalProject_Add(pycryptodome
     DEPENDS python
@@ -647,14 +629,12 @@ add_custom_target(DependenciesRequiredDebug
         GoogleTest
         libudfread
         tinyxml
-        zlib
 )
 
 if(NOT WINDOWS_STORE)
 add_dependencies(DependenciesRequired
     detours
     dnssd
-    flatc
     libplist
     shairplay
 )
