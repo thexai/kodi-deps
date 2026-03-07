@@ -14,13 +14,8 @@ Param(
     'harfbuzz',
     'lcms2',
     'libaacs',
-    'libass',
     'libbdplus',
-    'libbluray',
     'libcdio',
-    'libdvdcss',
-    'libdvdnav',
-    'libdvdread',
     'libffi',
     'libfribidi',
     'libgpg-error',
@@ -29,7 +24,6 @@ Param(
     'libiconv',
     'libplist',
     'libpng',
-    'libudfread',
     'libwebp',
     'libxml2',
     'miniwdk',
@@ -39,7 +33,6 @@ Param(
     'pycryptodome',
     'shairplay',
     'sqlite',
-    'swig',
     'tinyxml',
     'winflexbison',
     'xz',
@@ -66,28 +59,11 @@ Param(
 
 $ErrorActionPreference = "Stop"
 
-# JAVA_HOME might be set to the JRE so let's check that and
-# set it to the JDK to make things a little easier
-if (($null -eq $env:JAVA_HOME) -or ($env:JAVA_HOME -match 'jre')) {
-  if (!(Test-Path 'HKLM:\SOFTWARE\JavaSoft\Java Development Kit\1.8')) {
-    Write-Error "No JDK found. libbluray require JDK 1.8 from Oracle"
-    return
-  }
-
-  $jdkRegistryPath = Get-ItemPropertyValue 'HKLM:\SOFTWARE\JavaSoft\Java Development Kit\1.8' -Name JavaHome
-  if ($env:JAVA_HOME -ne $jdkRegistryPath) {
-    $env:JAVA_HOME = $jdkRegistryPath
-  }
-}
-
 $ExcludedFromUwp = @(
   'detours',
   'dnssd',
-  'libcec',
   'libplist',
-  'platform',
-  'shairplay',
-  'swig'
+  'shairplay'
 )
 
 if ($GenerateProjects) {
