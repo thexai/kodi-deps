@@ -194,14 +194,14 @@ ExternalProject_Add(miniwdk
 
 ExternalProject_Add(freetype
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://mirrors.kodi.tv/build-deps/sources/freetype-2.14.1.tar.xz
-    URL_HASH SHA256=32427e8c471ac095853212a37aef816c60b42052d4d9e48230bab3bdf2936ccc
+    URL https://sourceforge.net/projects/freetype/files/freetype2/2.14.2/freetype-2.14.2.tar.xz
+    URL_HASH SHA256=4b62dcab4c920a1a860369933221814362e699e26f55792516d671e6ff55b5e1
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(freetype 2.14.1)
+add_dependency_project_package(freetype 2.14.2)
 
 ExternalProject_Add(fstrcmp
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -514,7 +514,7 @@ add_dependency_project_package(libjpeg-turbo 3.1.3)
 ExternalProject_Add(pillow
     DEPENDS freetype libjpeg-turbo python zlib
     GIT_REPOSITORY https://github.com/thexai/Pillow
-    GIT_TAG adb6ed96fc250f6ebad0cb6cbd10bba84619f160
+    GIT_TAG e1cfac60729fc5600e4ef7f0076b539959caa5b6
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
