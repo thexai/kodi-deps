@@ -307,17 +307,6 @@ ExternalProject_Add(dnssd
 add_dependency_project_package(dnssd 2881.60.4)
 endif()
 
-ExternalProject_Add(lcms2
-    GIT_REPOSITORY https://github.com/Paxxi/Little-CMS
-    GIT_TAG 5c40d2402b4db97f6b91f83cfead6f28e14935f4
-    GIT_SHALLOW ON
-    CMAKE_ARGS
-        ${ADDITIONAL_ARGS}
-        -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
-        -DBUILD_SHARED_LIBS:BOOL=ON
-)
-add_dependency_project_package(lcms2 2.9)
-
 ExternalProject_Add(libgpg-error
     DEPENDS libiconv
     GIT_REPOSITORY https://github.com/Paxxi/libgpg-error
@@ -572,7 +561,6 @@ add_custom_target(DependenciesRequired
         giflib
         GoogleTest
         harfbuzz
-        lcms2
         libaacs
         libbdplus
         libcdio
