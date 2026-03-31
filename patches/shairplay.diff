@@ -1,32 +1,22 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+index 0000000..9bfdfac
 --- /dev/null
 +++ b/CMakeLists.txt
-@@ -0,0 +1,118 @@
-+cmake_minimum_required(VERSION 3.2)
+@@ -0,0 +1,150 @@
++cmake_minimum_required(VERSION 3.15)
 +
-+project(shairplay LANGUAGES C VERSION 0.9.0)
++project(shairplay VERSION 0.9.0 LANGUAGES C)
 +
 +if(MSVC)
 +  set(CMAKE_DEBUG_POSTFIX "d")
 +endif()
 +
-+
 +add_library(shairplay
 +  include/shairplay/dnssd.h
 +  include/shairplay/raop.h
-+  src/lib/raop_rtp.h
-+  src/lib/rsakey.c
-+  src/lib/rsakey.h
-+  src/lib/rsapem.c
-+  src/lib/rsapem.h
-+  src/lib/sdp.c
-+  src/lib/sdp.h
-+  src/lib/sockets.h
-+  src/lib/threads.h
-+  src/lib/utils.c
-+  src/lib/utils.h
 +  src/lib/base64.c
 +  src/lib/base64.h
-+  src/lib/compat.h
 +  src/lib/digest.c
 +  src/lib/digest.h
 +  src/lib/dnssd.c
@@ -42,13 +32,33 @@
 +  src/lib/httpd.h
 +  src/lib/logger.c
 +  src/lib/logger.h
-+  src/lib/memalign.h
 +  src/lib/netutils.c
 +  src/lib/netutils.h
 +  src/lib/raop.c
 +  src/lib/raop_buffer.c
 +  src/lib/raop_buffer.h
 +  src/lib/raop_rtp.c
++  src/lib/raop_rtp.h
++  src/lib/rsakey.c
++  src/lib/rsakey.h
++  src/lib/rsapem.c
++  src/lib/rsapem.h
++  src/lib/sdp.c
++  src/lib/sdp.h
++  src/lib/aes_ctr.c
++  src/lib/aes_ctr.h
++  src/lib/pairing.c
++  src/lib/pairing.h
++  src/lib/utils.c
++  src/lib/utils.h
++  src/lib/fairplay_playfair.c
++  src/lib/fairplay.h
++  src/lib/plist.c
++  src/lib/plist.h
++  src/lib/compat.h
++  src/lib/memalign.h
++  src/lib/sockets.h
++  src/lib/threads.h
 +  src/lib/alac/stdint_win.h
 +  src/lib/alac/alac.c
 +  src/lib/alac/alac.h
@@ -63,22 +73,43 @@
 +  src/lib/crypto/bigint_impl.h
 +  src/lib/crypto/config.h
 +  src/lib/crypto/crypto.h
++  src/lib/curve25519/curve25519-donna.c
++  src/lib/ed25519/add_scalar.c
++  src/lib/ed25519/fe.c
++  src/lib/ed25519/ge.c
++  src/lib/ed25519/keypair.c
++  src/lib/ed25519/sc.c
++  src/lib/ed25519/seed.c
++  src/lib/ed25519/sha512.c
++  src/lib/ed25519/sign.c
++  src/lib/ed25519/verify.c
++  src/lib/playfair/playfair.c
++  src/lib/playfair/playfair.h
++  src/lib/playfair/omg_hax.c
++  src/lib/playfair/omg_hax.h
++  src/lib/playfair/hand_garble.c
++  src/lib/playfair/modified_md5.c
++  src/lib/playfair/sap_hash.c
 +)
-+target_include_directories(
-+  shairplay PRIVATE
++
++target_include_directories(shairplay PRIVATE
 +  $<BUILD_INTERFACE:src/lib;include/;include/shairplay/;src/lib/crypto/;src/lib/alac/>
 +  INTERFACE
 +  $<INSTALL_INTERFACE:include/shairplay>
 +)
 +
-+target_compile_definitions(shairplay
-+  PRIVATE
++target_compile_definitions(shairplay PRIVATE
 +  _CRT_SECURE_NO_WARNINGS
 +  _CRT_NONSTDC_NO_DEPRECATE
 +  DLL_EXPORT
 +)
 +
-+target_link_libraries(shairplay PRIVATE ws2_32.lib winmm.lib)
++target_compile_options(shairplay PRIVATE /MP)
++
++target_link_libraries(shairplay PRIVATE
++  ws2_32.lib
++  winmm.lib
++)
 +
 +include(CMakePackageConfigHelpers)
 +write_basic_package_version_file(
@@ -87,15 +118,18 @@
 +  COMPATIBILITY AnyNewerVersion
 +)
 +
-+install(TARGETS shairplay EXPORT shairplay
++install(
++  TARGETS shairplay
++  EXPORT shairplay
 +  RUNTIME DESTINATION bin
 +  ARCHIVE DESTINATION lib
-+  LIBRARY DESTINATION lib)
++  LIBRARY DESTINATION lib
++)
 +
-+
-+install(DIRECTORY
-+  include/shairplay
-+  DESTINATION include)
++install(
++  DIRECTORY include/shairplay
++  DESTINATION include
++)
 +
 +install(EXPORT shairplay
 +  FILE
@@ -105,6 +139,7 @@
 +  DESTINATION
 +    lib/cmake/shairplay
 +)
++
 +install(
 +  FILES
 +    cmake/shairplay-config.cmake
@@ -119,10 +154,15 @@
 +    DESTINATION lib
 +  )
 +endif()
+diff --git a/cmake/shairplay-config.cmake b/cmake/shairplay-config.cmake
+new file mode 100644
+index 0000000..61aa958
 --- /dev/null
 +++ b/cmake/shairplay-config.cmake
 @@ -0,0 +1 @@
 +include(${CMAKE_CURRENT_LIST_DIR}/shairplay.cmake)
+diff --git a/src/lib/alac/alac.c b/src/lib/alac/alac.c
+index 7259d45..ca9c5c8 100644
 --- a/src/lib/alac/alac.c
 +++ b/src/lib/alac/alac.c
 @@ -260,7 +260,7 @@ static int count_leading_zeros(int input)
