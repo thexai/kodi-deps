@@ -539,17 +539,17 @@ add_dependency_project_package(pycryptodome 3.23.0)
 
 if(NOT WINDOWS_STORE)
 ExternalProject_Add(shairplay
-    DOWNLOAD_NAME shairplay-ce80e00.tar.gz
+    DOWNLOAD_NAME shairplay-096b61a.tar.gz
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://github.com/juhovh/shairplay/archive/ce80e00.tar.gz
-    URL_HASH SHA256=49ac0e0470ec6367f720c7b79a09165138f57b60f5949a2d9c38be5823d13294
+    URL https://github.com/juhovh/shairplay/archive/096b61a.tar.gz
+    URL_HASH SHA256=7e2b013ffe75ea2f13fb12b1aa38b8e2e8b1899ac292d57f05d7b352a3a181cf
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DBUILD_SHARED_LIBS:BOOL=ON
 )
-add_dependency_project_package(shairplay ce80e00)
+add_dependency_project_package(shairplay 096b61a)
 endif()
 
 ExternalProject_Add(GoogleTest
