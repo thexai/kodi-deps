@@ -12,7 +12,6 @@ Param(
     'giflib',
     'GoogleTest',
     'harfbuzz',
-    'lcms2',
     'libaacs',
     'libbdplus',
     'libcdio',
