@@ -145,14 +145,14 @@ add_dependency_project_package(libiconv 1.19)
 
 ExternalProject_Add(openssl
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://www.openssl.org/source/openssl-3.0.19.tar.gz
-    URL_HASH SHA256=fa5a4143b8aae18be53ef2f3caf29a2e0747430b8bc74d32d88335b94ab63072
+    URL https://www.openssl.org/source/openssl-3.0.20.tar.gz
+    URL_HASH SHA256=c80a01dfc70ece4dc21168932c37739042d404d46ccc81a5986dd75314ecda6f
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(openssl 3.0.19)
+add_dependency_project_package(openssl 3.0.20)
 
 ExternalProject_Add(zlib
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -168,8 +168,8 @@ add_dependency_project_package(zlib 1.3.2)
 
 ExternalProject_Add(xz
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://github.com/tukaani-project/xz/releases/download/v5.8.1/xz-5.8.1.tar.gz
-    URL_HASH SHA256=507825b599356c10dca1cd720c9d0d0c9d5400b9de300af00e4d1ea150795543
+    URL https://github.com/tukaani-project/xz/releases/download/v5.8.3/xz-5.8.3.tar.gz
+    URL_HASH SHA256=3d3a1b973af218114f4f889bbaa2f4c037deaae0c8e815eec381c3d546b974a0
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
@@ -180,7 +180,7 @@ ExternalProject_Add(xz
         -DXZ_TOOL_LZMADEC:BOOL=OFF
         -DXZ_DOC:BOOL=OFF
 )
-add_dependency_project_package(xz 5.8.1)
+add_dependency_project_package(xz 5.8.3)
 
 ExternalProject_Add(miniwdk
     GIT_REPOSITORY https://github.com/Paxxi/miniwdk
@@ -195,14 +195,14 @@ ExternalProject_Add(miniwdk
 
 ExternalProject_Add(freetype
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://sourceforge.net/projects/freetype/files/freetype2/2.14.2/freetype-2.14.2.tar.xz
-    URL_HASH SHA256=4b62dcab4c920a1a860369933221814362e699e26f55792516d671e6ff55b5e1
+    URL https://sourceforge.net/projects/freetype/files/freetype2/2.14.3/freetype-2.14.3.tar.xz
+    URL_HASH SHA256=36bc4f1cc413335368ee656c42afca65c5a3987e8768cc28cf11ba775e785a5f
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(freetype 2.14.2)
+add_dependency_project_package(freetype 2.14.3)
 
 ExternalProject_Add(fstrcmp
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -258,15 +258,15 @@ add_dependency_project_package(harfbuzz 12.3.2)
 
 ExternalProject_Add(sqlite
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://www.sqlite.org/2025/sqlite-amalgamation-3500400.zip
-    URL_HASH SHA256=1d3049dd0f830a025a53105fc79fd2ab9431aea99e137809d064d8ee8356b032
+    URL https://sqlite.org/2026/sqlite-amalgamation-3510300.zip
+    URL_HASH SHA256=acb1e6f5d832484bf6d32b681e858c38add8b2acdfd42ac5df24b8afb46552b4
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DBUILD_SHARED_LIBS:BOOL=ON
 )
-add_dependency_project_package(sqlite 3500400)
+add_dependency_project_package(sqlite 3.51.3)
 
 ExternalProject_Add(tinyxml
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -475,14 +475,14 @@ add_dependency_project_package(zstd 1.5.7)
 ExternalProject_Add(python
     DEPENDS bzip2 openssl sqlite zlib expat libffi xz zstd
     GIT_REPOSITORY https://github.com/thexai/cpython
-    GIT_TAG 88fc9e4fbd3e90b1437cae04234d2deb039a8414
+    GIT_TAG c56bbd87e3922bad47ad12330644c1573bb95682
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/bzip2%3B%3B${PREFIX}/openssl%3B%3B${PREFIX}/sqlite%3B%3B${PREFIX}/zlib%3B%3B${PREFIX}/libffi%3B%3B${PREFIX}/xz%3B%3B${PREFIX}/expat%3B%3B${PREFIX}/zstd
 )
-add_dependency_project_package(python 3.14.3)
+add_dependency_project_package(python 3.14.4)
 
 ExternalProject_Add(libjpeg-turbo
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
@@ -504,14 +504,14 @@ add_dependency_project_package(libjpeg-turbo 3.1.4)
 ExternalProject_Add(pillow
     DEPENDS freetype libjpeg-turbo python zlib
     GIT_REPOSITORY https://github.com/thexai/Pillow
-    GIT_TAG e1cfac60729fc5600e4ef7f0076b539959caa5b6
+    GIT_TAG 09c9a0bbaa992154f2d1f72dc9e924525576b411
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH:PATH=${PREFIX}%3B%3B${PREFIX}/freetype%3B%3B${PREFIX}/libjpeg-turbo%3B%3B${PREFIX}/python%3B%3B${PREFIX}/zlib
 )
-add_dependency_project_package(pillow 12.1.1)
+add_dependency_project_package(pillow 12.2.0)
 
 ExternalProject_Add(pycryptodome
     DEPENDS python
