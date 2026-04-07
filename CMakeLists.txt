@@ -542,15 +542,18 @@ add_dependency_project_package(shairplay 096b61a)
 endif()
 
 ExternalProject_Add(GoogleTest
-    GIT_REPOSITORY https://github.com/Google/GoogleTest
-    GIT_TAG 703bd9caab50b139428cea1aaff9974ebee5742e
-    GIT_SHALLOW ON
+    DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
+    URL https://github.com/google/googletest/releases/download/v1.17.0/googletest-1.17.0.tar.gz
+    URL_HASH SHA256=65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c
+    PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -Dgtest_force_shared_crt:BOOL=ON
+        -DBUILD_GMOCK:BOOL=OFF
+        -DCMAKE_DEBUG_POSTFIX=d
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(GoogleTest 1.10.0)
+add_dependency_project_package(GoogleTest 1.17.0)
 
 add_custom_target(DependenciesRequired
     DEPENDS
