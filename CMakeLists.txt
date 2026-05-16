@@ -145,14 +145,14 @@ add_dependency_project_package(libiconv 1.19)
 
 ExternalProject_Add(openssl
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
-    URL https://www.openssl.org/source/openssl-3.0.20.tar.gz
-    URL_HASH SHA256=c80a01dfc70ece4dc21168932c37739042d404d46ccc81a5986dd75314ecda6f
+    URL https://www.openssl.org/source/openssl-3.5.6.tar.gz
+    URL_HASH SHA256=deae7c80cba99c4b4f940ecadb3c3338b13cb77418409238e57d7f31f2a3b736
     PATCH_COMMAND ${PATCH} -p1 -i ${CMAKE_SOURCE_DIR}/patches/$(TargetName).diff
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
         -DCMAKE_INSTALL_PREFIX:PATH=${INSTALL_PREFIX}
 )
-add_dependency_project_package(openssl 3.0.20)
+add_dependency_project_package(openssl 3.5.6)
 
 ExternalProject_Add(zlib
     DOWNLOAD_DIR ${CMAKE_SOURCE_DIR}/downloads
