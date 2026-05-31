@@ -26,7 +26,7 @@ jobs:
     runs-on: windows-2022
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Install Strawberry Perl
       # Perl included with git does not work when building openssl
@@ -43,7 +43,7 @@ jobs:
       run: .\DoRelease.ps1 -Platforms ${{ matrix.arch }} ${{ matrix.platform }} -VsVersion ${{ env.VS_VERSION }} -SdkVersion "${{ env.SDK_VERSION }}"
 
     - name: Archive artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: Kodi dependencies ${{ matrix.arch }}${{ matrix.platform }}
         path: |
