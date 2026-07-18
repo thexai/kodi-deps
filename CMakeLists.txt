@@ -475,7 +475,7 @@ add_dependency_project_package(zstd 1.5.7)
 ExternalProject_Add(python
     DEPENDS bzip2 openssl sqlite zlib expat libffi xz zstd
     GIT_REPOSITORY https://github.com/thexai/cpython
-    GIT_TAG 44d932d1353b1c460260a16f01d1560e16b411d0
+    GIT_TAG 91b1f7f5a72a25f7974ce3999ef8d45cc43c35e4
     GIT_SHALLOW ON
     CMAKE_ARGS
         ${ADDITIONAL_ARGS}
