@@ -10,7 +10,6 @@ Param(
     'freetype',
     'fstrcmp',
     'giflib',
-    'GoogleTest',
     'harfbuzz',
     'libaacs',
     'libbdplus',
